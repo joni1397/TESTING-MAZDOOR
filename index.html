@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- SECTION: MOBILE VIEW
+     Phones now get their own mobile layout, PCs keep the PC layout.
+     (The mobile layout rules are in SECTION: MOBILE STYLE below.)
+     To make phones show the zoomed-out PC layout again, use instead:
+     <meta name="viewport" content="width=1200"> -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Happy Tails - grooming, comfort, feeding, clothes, collars, toys and travel gear for every kind of pet.">
+<title>Happy Tails | Everything your pet loves</title>
+
+<!-- SECTION: FONTS -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   SECTION: THEME COLORS
+   Change the 6 pastel colors + button color here.
+   ============================================================ */
+:root{
+  --cream:#FFF8EC;      /* soft cream  */
+  --peach:#FFD9C4;      /* warm peach  */
+  --mint:#CDEFDF;       /* mint pastel */
+  --sky:#C8E6F8;        /* gentle sky blue */
+  --beige:#F1E3CE;      /* warm beige  */
+  --lavender:#E3D9F7;   /* light lavender */
+
+  --ink:#4A3B47;        /* main text */
+  --ink-soft:#7D6B78;   /* secondary text */
+  --button:#EE7B8E;     /* main button color */
+  --button-dark:#CF5C70;/* button "3D" edge */
+  --white:#FFFFFF;
+  --shadow:0 12px 28px rgba(74,59,71,.13);
+}
+
+/* ---------- Base ---------- */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;background:var(--cream);color:var(--ink);line-height:1.55;overflow-x:hidden}
+h1,h2,h3,.logo{font-family:'Fredoka','Trebuchet MS',system-ui,sans-serif;line-height:1.15;letter-spacing:.2px}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:8px}
+.container{width:min(1150px,92%);margin-inline:auto}
+.view{display:none}
+.view.active{display:block}
+.page{padding:36px 0 80px;min-height:70vh}
+.section-title{font-size:clamp(1.6rem,4vw,2.3rem);margin-bottom:8px}
+.section-sub{color:var(--ink-soft);margin-bottom:28px;max-width:60ch}
+
+/* ---------- Chunky 3D buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--button);color:#fff;font-family:'Fredoka',sans-serif;font-weight:600;font-size:1.05rem;padding:14px 30px;border-radius:999px;box-shadow:0 6px 0 var(--button-dark),0 12px 20px rgba(207,92,112,.28);transition:transform .12s,box-shadow .12s;text-decoration:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 0 var(--button-dark),0 16px 24px rgba(207,92,112,.3)}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--button-dark)}
+.btn:disabled{opacity:.65;cursor:wait}
+.btn-sm{font-size:.92rem;padding:8px 20px;box-shadow:0 4px 0 var(--button-dark)}
+.btn-ghost{background:var(--white);color:var(--ink);box-shadow:0 6px 0 var(--beige),0 10px 18px rgba(74,59,71,.1)}
+.btn-ghost:hover{box-shadow:0 8px 0 var(--beige),0 14px 22px rgba(74,59,71,.12)}
+.btn-ghost:active{box-shadow:0 1px 0 var(--beige)}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:var(--ink-soft);margin-bottom:18px;padding:6px 4px}
+.back-link:hover{color:var(--ink)}
+
+/* ============================================================
+   SECTION: HEADER STYLE
+   ============================================================ */
+.site-header{position:sticky;top:0;z-index:50;background:rgba(255,248,236,.92);backdrop-filter:blur(8px);border-bottom:2px solid var(--beige);transition:box-shadow .2s ease}
+.site-header.scrolled{box-shadow:0 6px 18px rgba(74,59,71,.1)}
+.header-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0}
+.logo{display:flex;align-items:center;gap:8px;font-size:1.6rem;font-weight:700;text-decoration:none;color:var(--ink)}
+.logo span.paw{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--peach);font-size:1.15rem;transition:transform .3s}
+.logo:hover .paw{transform:rotate(-20deg) scale(1.1)}
+.nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nav a,.nav button.navbtn{font-weight:700;text-decoration:none;padding:8px 14px;border-radius:999px}
+.nav a:hover,.nav button.navbtn:hover{background:var(--lavender)}
+.announce{background:var(--mint);text-align:center;font-weight:700;font-size:.92rem;padding:7px 12px}
+.search-box{flex:1;max-width:440px;position:relative}
+.search-box input{width:100%;font-family:inherit;font-size:1rem;padding:11px 16px 11px 44px;border-radius:999px;border:2px solid var(--beige);background:var(--white);color:var(--ink)}
+.search-box input:focus{outline:none;border-color:var(--button)}
+.search-box .mag{position:absolute;left:16px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:1.05rem}
+.country-pick{display:flex;align-items:center;gap:6px;background:var(--sky);border-radius:999px;padding:4px 12px}
+.country-pick select{font-family:inherit;font-weight:700;color:var(--ink);background:transparent;border:none;padding:6px 2px;cursor:pointer;max-width:160px}
+
+/* ============================================================
+   SECTION: HERO STYLE (interactive dog + floating paws)
+   ============================================================ */
+.hero{position:relative;overflow:hidden;background:linear-gradient(160deg,var(--peach) 0%,var(--cream) 48%,var(--sky) 100%);padding:56px 0 90px;isolation:isolate}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
+.hero h1{font-size:clamp(2.3rem,6vw,4.2rem);margin-bottom:16px}
+.hero p.lead{font-size:1.15rem;color:var(--ink-soft);max-width:46ch;margin-bottom:28px}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap}
+.paws{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.paws i{position:absolute;bottom:-40px;font-style:normal;opacity:.55;animation:floatUp linear infinite}
+@keyframes floatUp{0%{transform:translateY(0) rotate(0deg);opacity:0}12%{opacity:.6}100%{transform:translateY(-620px) rotate(40deg);opacity:0}}
+
+/* ---- SECTION: INTERACTIVE DOG FACE (styling) ----
+   The dog's face can be dragged with a mouse (click + move) or a
+   finger (touch + move) on mobile: its head turns to follow the
+   pointer. See SECTION: INTERACTIVE DOG FACE (behaviour) in the
+   script below for the drag logic itself. */
+.puppy-stage{position:relative;display:grid;place-items:center;cursor:grab}
+.puppy-stage.dragging{cursor:grabbing}
+.puppy-blob{position:absolute;width:76%;aspect-ratio:1;background:var(--peach);border-radius:58% 42% 55% 45%/50% 55% 45% 50%;animation:blob 9s ease-in-out infinite;box-shadow:inset -14px -18px 0 rgba(74,59,71,.06);touch-action:none}
+@keyframes blob{50%{border-radius:42% 58% 45% 55%/55% 45% 55% 45%;transform:rotate(6deg)}}
+.puppy-svg{position:relative;width:min(300px,72%);overflow:visible;filter:drop-shadow(0 16px 14px rgba(74,59,71,.16));user-select:none;-webkit-user-select:none;touch-action:none}
+.pet-body{animation:breathe 3.4s ease-in-out infinite;transform-origin:160px 320px}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.015,.985)}}
+#dogHead{transform-origin:160px 190px;animation:idleSway 4.5s ease-in-out infinite}
+@keyframes idleSway{0%,100%{transform:rotate(0deg) translate(0,0)}25%{transform:rotate(-3deg) translate(-2px,1px)}75%{transform:rotate(3deg) translate(2px,1px)}}
+#pupilL,#pupilR{transition:transform .12s ease-out}
+.dog-hint{position:absolute;top:8%;left:50%;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:6px;background:var(--white);color:var(--ink);font-family:'Fredoka',sans-serif;font-weight:600;font-size:.85rem;padding:7px 16px;border-radius:999px;box-shadow:0 6px 16px rgba(74,59,71,.2);pointer-events:none;animation:hintBounce 1.6s ease-in-out infinite;transition:opacity .35s ease,transform .35s ease}
+.dog-hint::after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);width:12px;height:12px;background:var(--white);clip-path:polygon(0 0,100% 0,50% 100%)}
+.dog-hint.hidden{opacity:0;transform:translateX(-50%) translateY(-6px) scale(.9)}
+@keyframes hintBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-6px)}}
+.hero-wave{position:absolute;left:0;right:0;bottom:-1px;height:54px;background:var(--cream);clip-path:ellipse(60% 100% at 50% 100%)}
+
+/* ---------- trust strip ---------- */
+.trust{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:-30px;position:relative;z-index:2}
+.trust div{background:var(--white);border-radius:20px;padding:16px 18px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:center;font-weight:700;font-size:.95rem}
+.trust span.ic{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:1.3rem;flex:none}
+.trust div:nth-child(1) .ic{background:var(--mint)}
+.trust div:nth-child(2) .ic{background:var(--sky)}
+.trust div:nth-child(3) .ic{background:var(--lavender)}
+.trust div:nth-child(4) .ic{background:var(--peach)}
+
+/* ============================================================
+   SECTION: CATEGORY CARDS STYLE
+   ============================================================ */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:22px}
+.cat-card{background:var(--c,var(--peach));border-radius:26px;padding:14px 14px 20px;text-align:left;box-shadow:var(--shadow);transition:transform .2s ease,box-shadow .2s;transform-style:preserve-3d;will-change:transform;display:flex;flex-direction:column;gap:8px}
+.cat-card:hover{box-shadow:0 22px 40px rgba(74,59,71,.2)}
+.cat-card img{border-radius:18px;width:100%;aspect-ratio:4/3;object-fit:cover;transform:translateZ(30px)}
+.cat-card h3{font-size:1.25rem;margin-top:6px;transform:translateZ(20px)}
+.cat-card p{color:var(--ink-soft);font-size:.93rem;flex:1}
+.cat-cta{font-family:'Fredoka',sans-serif;font-weight:600;background:var(--white);border-radius:999px;padding:7px 16px;align-self:flex-start;font-size:.95rem}
+
+/* ============================================================
+   SECTION: PRODUCT CARDS STYLE
+   ============================================================ */
+.cat-head{border-radius:28px;padding:28px 30px;margin-bottom:30px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;background:var(--c,var(--peach))}
+.cat-head .big{font-size:3.4rem;animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.cat-head h1{font-size:clamp(1.6rem,4vw,2.3rem)}
+.cat-head p{color:var(--ink-soft);max-width:56ch}
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
+.prod-card{background:var(--white);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;position:relative;transition:transform .2s ease,box-shadow .2s;will-change:transform}
+.prod-card:hover{box-shadow:0 22px 40px rgba(74,59,71,.2)}
+.prod-card img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.prod-body{padding:14px 16px 18px;display:flex;flex-direction:column;gap:6px}
+.prod-body h3{font-size:1.08rem}
+.prod-body .mini{color:var(--ink-soft);font-size:.9rem;min-height:2.6em}
+.price-row{display:flex;align-items:baseline;gap:8px;margin:4px 0 8px}
+.price-row b{font-family:'Fredoka',sans-serif;font-size:1.3rem}
+.price-row s{color:var(--ink-soft);font-size:.92rem}
+.tag{position:absolute;top:12px;left:12px;background:var(--button);color:#fff;font-family:'Fredoka',sans-serif;font-size:.85rem;padding:3px 12px;border-radius:999px;z-index:1}
+
+/* ============================================================
+   SECTION: PRODUCT DETAILS STYLE
+   ============================================================ */
+.pd{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.pd-main{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:28px;box-shadow:var(--shadow);background:var(--beige)}
+.pd-thumbs{display:flex;gap:12px;margin-top:14px}
+.pd-thumbs img{width:76px;aspect-ratio:1;object-fit:cover;border-radius:16px;border:3px solid transparent;cursor:pointer;background:var(--beige)}
+.pd-thumbs img.on{border-color:var(--button)}
+.pd-info h1{font-size:clamp(1.7rem,4vw,2.4rem);margin:8px 0 12px}
+.crumb{display:inline-block;background:var(--lavender);border-radius:999px;padding:3px 14px;font-weight:700;font-size:.88rem}
+.pd-price{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+.pd-price b{font-family:'Fredoka',sans-serif;font-size:2.2rem}
+.pd-price s{color:var(--ink-soft)}
+.pd-info p.desc{margin-bottom:14px;max-width:56ch}
+.pd-info ul{list-style:none;margin:0 0 20px;display:grid;gap:8px}
+.pd-info li{background:var(--mint);border-radius:14px;padding:8px 14px;font-weight:600}
+.variant-group{margin-bottom:16px}
+.variant-label{display:block;font-weight:700;font-size:.94rem;margin-bottom:8px}
+.variant-options{display:flex;flex-wrap:wrap;gap:8px}
+.variant-pill{background:var(--white);border:2px solid var(--beige);border-radius:999px;padding:7px 18px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:.92rem;transition:border-color .15s,background .15s}
+.variant-pill:hover{border-color:var(--button)}
+.variant-pill.selected{background:var(--button);border-color:var(--button);color:#fff}
+.buy-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:16px}
+.qty{display:flex;align-items:center;background:var(--white);border-radius:999px;box-shadow:var(--shadow)}
+.qty button{width:44px;height:44px;font-size:1.4rem;font-weight:700;border-radius:50%}
+.qty button:hover{background:var(--sky)}
+.qty span{min-width:34px;text-align:center;font-weight:700;font-size:1.1rem}
+.ship-note{background:var(--sky);border-radius:16px;padding:12px 16px;font-weight:600;font-size:.94rem}
+
+/* ============================================================
+   SECTION: CHECKOUT & PAYMENT STYLE
+   ============================================================ */
+.steps{display:flex;gap:10px;margin-bottom:26px;flex-wrap:wrap}
+.steps span{background:var(--white);border-radius:999px;padding:6px 16px;font-weight:700;font-size:.9rem;color:var(--ink-soft)}
+.steps span.on{background:var(--lavender);color:var(--ink)}
+.co-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:start}
+.panel{background:var(--white);border-radius:28px;padding:28px;box-shadow:var(--shadow)}
+.panel h2{font-size:1.5rem;margin-bottom:18px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-weight:700;font-size:.93rem}
+.field input,.field textarea,.field select{font-family:inherit;font-size:1rem;padding:12px 14px;border-radius:14px;border:2px solid var(--beige);background:var(--cream);color:var(--ink);width:100%}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--button);background:#fff}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.sum-item{display:flex;gap:14px;align-items:center;margin-bottom:16px}
+.sum-item img{width:84px;aspect-ratio:1;object-fit:cover;border-radius:16px}
+.sum-line{display:flex;justify-content:space-between;padding:8px 0;border-top:2px dashed var(--beige);font-weight:600}
+.sum-line.total{font-family:'Fredoka',sans-serif;font-size:1.3rem;font-weight:600}
+.form-msg{margin:12px 0 0;padding:10px 14px;border-radius:14px;font-weight:700;display:none}
+.form-msg.err{display:block;background:var(--peach)}
+.ok-banner{background:var(--mint);border-radius:22px;padding:18px 22px;margin-bottom:24px;font-weight:700}
+.pay-list{display:grid;gap:14px}
+.pay-btn{display:flex;align-items:center;gap:16px;padding:16px 20px;border-radius:20px;background:var(--cream);border:2px solid var(--beige);text-decoration:none;transition:transform .15s,border-color .15s,background .15s}
+.pay-btn:hover{transform:translateY(-3px);border-color:var(--button);background:#fff}
+.pay-ico{width:50px;height:50px;border-radius:16px;display:grid;place-items:center;font-size:1.5rem;background:var(--sky);flex:none}
+.pay-btn:nth-child(even) .pay-ico{background:var(--lavender)}
+.pay-btn b{font-family:'Fredoka',sans-serif;font-size:1.12rem;display:block}
+.pay-btn small{color:var(--ink-soft);font-weight:600}
+.pay-btn em{margin-left:auto;font-style:normal;font-weight:700;font-family:'Fredoka',sans-serif}
+.note{font-size:.88rem;color:var(--ink-soft);margin-top:16px}
+
+/* ============================================================
+   SECTION: FOOTER STYLE
+   ============================================================ */
+.policy-body h3{font-size:1.2rem;margin:24px 0 8px}
+.policy-body p{margin-bottom:14px;max-width:72ch}
+.site-footer{background:var(--beige);padding:46px 0 40px;margin-top:20px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px}
+.foot-brand p{color:var(--ink-soft);max-width:34ch;margin-top:10px}
+.foot-col h4{font-family:'Fredoka',sans-serif;font-size:1rem;margin-bottom:10px;letter-spacing:.3px}
+.foot-links{display:flex;flex-direction:column;gap:8px;font-weight:600;font-size:.95rem}
+.foot-links a{text-decoration:none;color:var(--ink-soft)}
+.foot-links a:hover{color:var(--ink);text-decoration:underline}
+.copy{margin-top:32px;padding-top:20px;border-top:1px solid rgba(74,59,71,.12);font-size:.88rem;color:var(--ink-soft)}
+
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(30px);background:var(--ink);color:#fff;padding:12px 22px;border-radius:999px;font-weight:700;opacity:0;pointer-events:none;transition:.3s;z-index:120;max-width:92vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ---------- breadcrumb ---------- */
+.crumbs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-weight:700;font-size:.9rem;color:var(--ink-soft);margin-bottom:14px}
+.crumbs a{color:var(--ink-soft);text-decoration:none}
+.crumbs a:hover{color:var(--ink);text-decoration:underline}
+.crumbs span.sep{opacity:.6}
+.crumbs span.current{color:var(--ink)}
+
+/* ---------- scroll-to-top ---------- */
+.top-fab{position:fixed;left:20px;bottom:20px;z-index:80;width:48px;height:48px;border-radius:50%;background:var(--white);color:var(--ink);font-size:1.2rem;box-shadow:var(--shadow);opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .2s,transform .2s}
+.top-fab.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+.top-fab:hover{background:var(--lavender)}
+
+/* ---------- category product count ---------- */
+.cat-count{font-size:.78rem;font-weight:700;color:var(--ink-soft);background:rgba(255,255,255,.6);border-radius:999px;padding:2px 10px;display:inline-block;margin-bottom:2px}
+
+/* ---------- reassurance note ---------- */
+.buy-reassure{display:flex;flex-wrap:wrap;gap:14px;font-size:.85rem;font-weight:700;color:var(--ink-soft);margin-top:2px}
+.buy-reassure span{display:inline-flex;align-items:center;gap:5px}
+
+/* ============================================================
+   SECTION: VARIANTS & REVIEWS STYLE
+   ============================================================ */
+.variant-pill{display:inline-flex;align-items:center;gap:8px}
+.variant-pill .vdot{width:16px;height:16px;border-radius:50%;border:2px solid rgba(74,59,71,.25);flex:none}
+.variant-pill .vimg{width:26px;height:26px;border-radius:8px;object-fit:cover;flex:none}
+.stars{color:#F5A623;letter-spacing:1px;white-space:nowrap}
+.stars .off{color:#E4D8C6}
+.mini-rate{font-size:.85rem;font-weight:700;color:var(--ink-soft)}
+.rev-wrap{margin-top:46px}
+.rev-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}
+.rev-avg{display:flex;align-items:center;gap:10px;font-weight:700}
+.rev-avg b{font-family:'Fredoka',sans-serif;font-size:2rem}
+.rev-list{display:grid;gap:16px}
+.rev-card{background:var(--white);border-radius:22px;padding:20px;box-shadow:var(--shadow)}
+.rev-top{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-bottom:8px}
+.rev-top b{font-family:'Fredoka',sans-serif}
+.rev-badge{font-size:.75rem;font-weight:700;background:var(--mint);border-radius:999px;padding:2px 10px}
+.rev-badge.wait{background:var(--peach)}
+.rev-date{color:var(--ink-soft);font-size:.85rem}
+.rev-prod{font-size:.85rem;font-weight:700;color:var(--ink-soft);margin-bottom:6px}
+.rev-imgs{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.rev-imgs img{width:96px;height:96px;object-fit:cover;border-radius:14px;cursor:zoom-in;background:var(--beige)}
+.star-pick{display:flex;gap:4px}
+.star-pick button{font-size:2rem;line-height:1;color:#E4D8C6;padding:2px}
+.star-pick button.on{color:#F5A623}
+.rv-thumbs{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.rv-thumbs div{position:relative}
+.rv-thumbs img{width:76px;height:76px;object-fit:cover;border-radius:12px}
+.rv-thumbs button{position:absolute;top:-6px;right:-6px;background:var(--ink);color:#fff;border-radius:50%;width:22px;height:22px;font-size:.8rem;line-height:22px}
+.form-msg.ok{display:block;background:var(--mint)}
+/* ---- Orders & Reviews ---- */
+.ord-list{display:grid;gap:16px;margin-bottom:8px}
+.ord-card{display:flex;align-items:center;gap:16px;width:100%;text-align:left;background:var(--white);border-radius:22px;padding:16px;box-shadow:var(--shadow);cursor:pointer;transition:transform .15s}
+.ord-card:hover{transform:translateY(-3px)}
+.ord-card img{width:84px;aspect-ratio:1;object-fit:cover;border-radius:16px;flex:none;background:var(--beige)}
+.ord-card b{font-family:'Fredoka',sans-serif;font-size:1.05rem;display:block}
+.ord-card small{display:block;color:var(--ink-soft);font-weight:600;margin-top:2px}
+.ord-card em{margin-left:auto;font-style:normal;font-weight:700;font-family:'Fredoka',sans-serif;flex:none}
+.ord-info{background:var(--mint);border-radius:18px;padding:6px 18px;margin-bottom:18px}
+.ord-info .row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 0}
+.ord-info .row + .row{border-top:2px dashed rgba(74,59,71,.18)}
+.ord-info .row b{word-break:break-all}
+/* ---- Questions & answers (product page) ---- */
+.qa-wrap{margin-top:46px}
+.qa-list{display:grid;gap:14px}
+.qa-card{background:var(--white);border-radius:22px;padding:18px 20px;box-shadow:var(--shadow)}
+.qa-card .qa-q{font-weight:700}
+.qa-card .qa-a{margin-top:8px;background:var(--mint);border-radius:14px;padding:8px 14px}
+.qa-card .qa-date{color:var(--ink-soft);font-size:.85rem;margin-top:6px}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.82);display:none;align-items:center;justify-content:center;z-index:200;padding:16px}
+.lightbox.show{display:flex}
+.lightbox img{max-width:100%;max-height:100%;border-radius:14px}
+
+/* ============================================================
+   SECTION: MOBILE STYLE
+   Only applies on small screens (phones). PC view is not affected.
+   ============================================================ */
+@media (max-width:640px){
+  .container{width:94%}
+  .page{padding:22px 0 60px}
+  .header-row{flex-wrap:wrap;gap:10px}
+  .nav{flex:1;justify-content:flex-end;gap:2px}
+  .logo{font-size:1.15rem;white-space:nowrap}
+  .nav{flex-wrap:nowrap}
+  .nav a{padding:6px 7px;font-size:.82rem;white-space:nowrap}
+  .search-box{order:3;flex-basis:100%;max-width:none}
+  .two{grid-template-columns:1fr}
+  .panel{padding:20px;border-radius:22px}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:22px}
+  .foot-brand{grid-column:1/-1}
+  .prod-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .cat-grid{grid-template-columns:1fr 1fr;gap:14px}
+  .pd{gap:24px}
+  .pd-thumbs{flex-wrap:wrap}
+  .buy-row .btn{flex:1}
+  .rev-imgs img{width:78px;height:78px}
+  .ord-card{gap:12px;padding:12px}
+  .ord-card img{width:64px}
+}
+@media (max-width:400px){
+  .prod-grid,.cat-grid,.foot-grid{grid-template-columns:1fr}
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width:860px){
+  .hero-grid,.pd,.co-grid{grid-template-columns:1fr}
+  .puppy-stage{order:-1;margin-bottom:22px}
+  .hero{padding-top:30px}
+  .puppy-svg{width:min(220px,60%)}
+}
+@media (max-width:560px){
+  .two{grid-template-columns:1fr}
+  .header-row{flex-wrap:wrap}
+  .search-box{order:3;flex-basis:100%;max-width:none}
+  .panel{padding:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ============================================================
+     SECTION: HEADER & NAVIGATION
+     ============================================================ -->
+<!-- SECTION: ANNOUNCEMENT BAR
+     (green strip at the very top; text comes from "shipping" in COUNTRY SETTINGS) -->
+<div class="announce" id="announceBar"></div>
+<header class="site-header">
+  <div class="container header-row">
+    <a href="#" class="logo" onclick="go('home');return false;"><span class="paw">🐾</span>Happy Tails</a>
+    <!-- SECTION: SEARCH BAR -->
+    <form class="search-box" id="searchForm" role="search">
+      <span class="mag" aria-hidden="true">🔍</span>
+      <input id="searchInput" type="search" placeholder="Search products, e.g. collar, coat, toy, bed" aria-label="Search products" autocomplete="off">
+    </form>
+    <nav class="nav" aria-label="Main">
+      <a href="#" class="hide-sm" onclick="go('home');return false;">Home</a>
+      <a href="#" class="hide-sm" onclick="scrollToCategories();return false;">Shop</a>
+      <a href="#" class="hide-sm" onclick="go('orders');return false;">📦 Orders &amp; Reviews</a>
+      <label class="country-pick" title="Choose your country">
+        <span aria-hidden="true">🌍</span>
+        <select id="countrySelect" aria-label="Choose your country"></select>
+      </label>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================================================
+     SECTION: HOME PAGE
+     ============================================================ -->
+<div class="view active" id="view-home">
+
+  <!-- SECTION: HERO ANIMATION -->
+  <section class="hero">
+    <div class="paws" id="paws" aria-hidden="true"></div>
+    <div class="container hero-grid">
+      <div>
+        <h1>Happy pets,<br>wagging tails.</h1>
+        <p class="lead">Grooming, cozy beds, feeding gear, clothes, toys and travel essentials for dogs, cats and every other pet you love.</p>
+        <div class="hero-actions">
+          <button class="btn" onclick="scrollToCategories()">Shop now</button>
+          <button class="btn btn-ghost" id="askHelperBtn" style="display:none" onclick="openLiveChat()">Ask our helper</button>
+        </div>
+      </div>
+      <!-- SECTION: INTERACTIVE DOG FACE (markup)
+           Drag with a mouse (click and move) or a finger (touch and
+           move) anywhere on this character: the head turns to
+           follow. The drag logic lives in SECTION: INTERACTIVE DOG
+           FACE (behaviour) further down in the script. -->
+      <div class="puppy-stage" id="dogStage" role="img" aria-label="A friendly cartoon dog. Click or touch and drag its face.">
+        <div class="puppy-blob"></div>
+        <svg class="puppy-svg" viewBox="0 0 320 340" xmlns="http://www.w3.org/2000/svg">
+          <g class="pet-body">
+            <ellipse cx="160" cy="322" rx="98" ry="14" fill="rgba(74,59,71,.18)"/>
+            <ellipse cx="122" cy="302" rx="27" ry="16" fill="#B98450"/>
+            <ellipse cx="198" cy="302" rx="27" ry="16" fill="#B98450"/>
+            <ellipse cx="160" cy="272" rx="108" ry="66" fill="#C9975B"/>
+            <ellipse cx="160" cy="284" rx="62" ry="46" fill="#EAD3AC"/>
+            <path d="M70 266 Q34 220 45 164" stroke="#C9975B" stroke-width="34" stroke-linecap="round" fill="none"/>
+            <circle cx="46" cy="157" r="22" fill="#B98450"/>
+            <path d="M250 266 Q286 220 275 164" stroke="#C9975B" stroke-width="34" stroke-linecap="round" fill="none"/>
+            <circle cx="274" cy="157" r="22" fill="#B98450"/>
+          </g>
+          <g id="dogHead">
+            <ellipse cx="103" cy="112" rx="26" ry="50" fill="#8C5A34" transform="rotate(-18 103 112)"/>
+            <ellipse cx="109" cy="122" rx="14" ry="32" fill="#B98450" transform="rotate(-18 109 122)"/>
+            <ellipse cx="217" cy="112" rx="26" ry="50" fill="#8C5A34" transform="rotate(18 217 112)"/>
+            <ellipse cx="211" cy="122" rx="14" ry="32" fill="#B98450" transform="rotate(18 211 122)"/>
+            <circle cx="160" cy="185" r="100" fill="#C9975B"/>
+            <ellipse cx="160" cy="222" rx="58" ry="42" fill="#EAD3AC"/>
+            <circle cx="98" cy="228" r="14" fill="#E38A6B" opacity=".4"/>
+            <circle cx="222" cy="228" r="14" fill="#E38A6B" opacity=".4"/>
+            <path d="M112 148 q18 -16 34 -2" stroke="#5C3A22" stroke-width="7" fill="none" stroke-linecap="round"/>
+            <path d="M208 148 q-18 -16 -34 -2" stroke="#5C3A22" stroke-width="7" fill="none" stroke-linecap="round"/>
+            <circle cx="128" cy="172" r="19" fill="#FFFDF8"/>
+            <circle cx="192" cy="172" r="19" fill="#FFFDF8"/>
+            <g id="pupilL"><circle cx="128" cy="172" r="9" fill="#2A1B12"/><circle cx="131" cy="168" r="3" fill="#fff"/></g>
+            <g id="pupilR"><circle cx="192" cy="172" r="9" fill="#2A1B12"/><circle cx="195" cy="168" r="3" fill="#fff"/></g>
+            <ellipse cx="160" cy="214" rx="17" ry="13" fill="#2A1B12"/>
+            <path d="M160 227 v10 M160 237 q-20 20 -40 2 M160 237 q20 20 40 2" stroke="#2A1B12" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M148 240 q12 26 24 0 z" fill="#FF8FA3"/>
+          </g>
+        </svg>
+      </div>
+      <span class="dog-hint" id="dogHint">👆 Touch me!</span>
+    </div>
+    <div class="hero-wave"></div>
+  </section>
+
+  <div class="container">
+    <div class="trust">
+      <div><span class="ic">🎁</span><span>Carefully chosen products</span></div>
+      <div><span class="ic">🔒</span><span>Secure checkout</span></div>
+      <div><span class="ic">💬</span><span>Friendly help, any time</span></div>
+      <div><span class="ic">🐶</span><span>All pets welcome</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION: PRODUCT CATEGORIES -->
+  <section class="page" id="categories" style="min-height:0;padding-top:64px">
+    <div class="container">
+      <h2 class="section-title">Shop by what your pet needs</h2>
+      <p class="section-sub">Pick a category to see everything we have for bath time, naps, meals, play and adventures.</p>
+      <div class="cat-grid" id="catGrid"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================================================
+     SECTION: PRODUCT LIST PAGE
+     (opens when a customer clicks a category box)
+     ============================================================ -->
+<div class="view" id="view-category">
+  <div class="container page">
+    <button class="back-link" onclick="go('home')">← Back to all categories</button>
+    <div class="cat-head" id="catHead"></div>
+    <div class="prod-grid" id="prodGrid"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION: POLICY PAGE
+     (one page layout used for Privacy, Return, Shipping etc.
+      The text itself is written in SECTION: POLICY PAGES below)
+     ============================================================ -->
+<div class="view" id="view-policy">
+  <div class="container page">
+    <button class="back-link" onclick="go('home')">← Back to home</button>
+    <div class="panel">
+      <h1 class="section-title" id="policyTitle"></h1>
+      <div class="policy-body" id="policyBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION: SEARCH RESULTS PAGE
+     (opens when a customer types in the search bar)
+     ============================================================ -->
+<div class="view" id="view-search">
+  <div class="container page">
+    <button class="back-link" onclick="go('home')">← Back to home</button>
+    <div id="searchHead" style="margin-bottom:24px"></div>
+    <div class="prod-grid" id="searchGrid"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION: PRODUCT DETAILS PAGE
+     (opens when a customer clicks a product)
+     ============================================================ -->
+<div class="view" id="view-product">
+  <div class="container page">
+    <button class="back-link" id="backToCat" onclick="go('category')">← Back</button>
+    <div class="pd" id="productDetail"></div>
+    <!-- Only the reviews people already gave are shown here (no "write a review" button on this page) -->
+    <div class="rev-wrap" id="productReviews"></div>
+    <!-- "Ask a question" box: the button opens your chatbot (SECTION: QUESTIONS & ANSWERS) -->
+    <div class="qa-wrap" id="productQA"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION: CHECKOUT FORM
+     (opens after the customer presses "Buy Now")
+     ============================================================ -->
+<div class="view" id="view-checkout">
+  <div class="container page">
+    <button class="back-link" onclick="go('product')">← Back to product</button>
+    <div class="steps"><span class="on">1. Your details</span><span>2. Payment</span></div>
+    <div class="co-grid">
+      <div class="panel">
+        <h2>Where should we send your order?</h2>
+        <!-- The form action is set automatically from FORMSPREE SETTINGS in the script below -->
+        <form id="orderForm" method="POST">
+          <div class="field"><label for="f-name">Full name</label><input id="f-name" name="name" type="text" required autocomplete="name"></div>
+          <div class="two">
+            <div class="field"><label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel" required autocomplete="tel"></div>
+            <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required autocomplete="email"></div>
+          </div>
+          <div class="field"><label for="f-address">Address</label><input id="f-address" name="address" type="text" required autocomplete="street-address"></div>
+          <div class="two">
+            <div class="field"><label for="f-city">City</label><input id="f-city" name="city" type="text" required autocomplete="address-level2"></div>
+            <div class="field"><label for="f-postal" id="postalLabel">Postal code</label><input id="f-postal" name="postal_code" type="text" required autocomplete="postal-code"></div>
+          </div>
+          <div class="field"><label for="f-notes">Notes for us (optional)</label><textarea id="f-notes" name="notes" rows="2"></textarea></div>
+          <button class="btn" type="submit" id="confirmBtn" style="width:100%">Confirm order</button>
+          <p class="form-msg" id="formMsg" role="alert"></p>
+        </form>
+      </div>
+      <aside class="panel" id="checkoutSummary"></aside>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION: PAYMENT GATEWAY BUTTONS
+     Each button below is a normal link. Change the href="..." to
+     your OWN payment link (PayPal.me, Stripe Payment Link, local
+     wallet link). Use data-countries to choose where it shows:
+     ALL = every country, or codes like SA,AE (see COUNTRY SETTINGS)
+     ============================================================ -->
+<div class="view" id="view-payment">
+  <div class="container page">
+    <div class="steps"><span>1. Your details</span><span class="on">2. Payment</span></div>
+    <div class="ok-banner" id="orderOk"></div>
+    <div class="co-grid">
+      <div class="panel">
+        <h2>Choose how you want to pay</h2>
+        <div class="pay-list" id="payList">
+
+          <!-- Payment button 1: PayPal (all countries) -->
+          <a class="pay-btn" href="https://www.paypal.com/" data-countries="ALL">
+            <span class="pay-ico">💙</span><span><b>PayPal</b><small>Pay with your PayPal balance or card</small></span><em>Pay</em>
+          </a>
+
+          <!-- Payment button 2: Credit / Debit Card via Stripe (all countries) -->
+          <a class="pay-btn" href="https://stripe.com/" data-countries="ALL">
+            <span class="pay-ico">💳</span><span><b>Credit or debit card</b><small>Visa, Mastercard and more</small></span><em>Pay</em>
+          </a>
+
+          <!-- Payment button 3: mada / STC Pay (Saudi Arabia only) -->
+          <a class="pay-btn" href="https://www.stcpay.com.sa/" data-countries="SA">
+            <span class="pay-ico">📱</span><span><b>STC Pay</b><small>Popular in Saudi Arabia</small></span><em>Pay</em>
+          </a>
+
+          <!-- Payment button 4: Tabby buy now, pay later (UAE and Saudi Arabia) -->
+          <a class="pay-btn" href="https://tabby.ai/" data-countries="AE,SA">
+            <span class="pay-ico">🛍️</span><span><b>Tabby</b><small>Split your payment into parts</small></span><em>Pay</em>
+          </a>
+
+          <!-- Payment button 5: JazzCash (Pakistan only) -->
+          <a class="pay-btn" href="https://www.jazzcash.com.pk/" data-countries="PK">
+            <span class="pay-ico">📲</span><span><b>JazzCash</b><small>Mobile wallet</small></span><em>Pay</em>
+          </a>
+
+          <!-- Payment button 6: Easypaisa (Pakistan only) -->
+          <a class="pay-btn" href="https://easypaisa.com.pk/" data-countries="PK">
+            <span class="pay-ico">🏦</span><span><b>Easypaisa</b><small>Mobile wallet</small></span><em>Pay</em>
+          </a>
+
+          <!-- ===== TO ADD A NEW PAYMENT METHOD: paste a new <a class="pay-btn"> block above this line ===== -->
+        </div>
+        <p class="note">You will be taken to the payment website to finish paying. Please keep your order number handy.</p>
+      </div>
+      <aside class="panel" id="paymentSummary"></aside>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION: ORDERS & REVIEWS PAGE
+     (opens from "Orders & Reviews" in the top menu, next to Home.
+      Lists the orders placed on this phone/computer. The customer
+      taps an order to see its details and to write a review.)
+     ============================================================ -->
+<div class="view" id="view-orders">
+  <div class="container page">
+    <button class="back-link" onclick="go('home')">← Back to home</button>
+    <h1 class="section-title">Your orders</h1>
+    <p class="section-sub">Tap an order to see its details and write a review.</p>
+    <div class="ord-list" id="ordersList"></div>
+    <p class="note">Ordered on another phone or computer? <a href="#" style="text-decoration:underline" onclick="startReview();return false;">Write a review with your order number and email</a>.</p>
+  </div>
+</div>
+
+<div class="view" id="view-order">
+  <div class="container page">
+    <button class="back-link" onclick="go('orders')">← Back to your orders</button>
+    <div class="co-grid" id="orderDetail"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION: CUSTOMER REVIEWS PAGE
+     (opens ONLY from "Write a review" inside an order in
+      "Orders & Reviews" (top menu, next to Home). This is the one
+      and only place where a customer can write a review. Product
+      pages just show the reviews.
+      The form here emails the review to you via Formspree — see
+      SECTION: CUSTOMER REVIEWS DATA below for how to publish a
+      review on the site once you're happy with it.)
+     ============================================================ -->
+<div class="view" id="view-review">
+  <div class="container page">
+    <button class="back-link" onclick="go('orders')">← Back to your orders</button>
+    <h1 class="section-title">Customer Reviews</h1>
+    <p class="section-sub">Real words and photos from pet parents. Only customers who have placed an order can write a review.</p>
+    <div class="co-grid">
+      <div class="panel">
+        <!-- STEP 1: check the order (hidden if requireOrder is false in REVIEW SETTINGS) -->
+        <div id="reviewGate">
+          <h2>Write a review</h2>
+          <p class="note" style="margin:-8px 0 14px"><b>Instructions:</b> Enter the order number and email exactly as they appear on your order. Only the person who placed and paid for this order can use these details to write a review.</p>
+          <p class="note" style="margin:0 0 14px">Don't know your order number or email? Go to <b>Orders &amp; Reviews</b>, select your order, and check the details shown there.</p>
+          <div class="field"><label for="rg-order">Order number</label><input id="rg-order" type="text" placeholder="HT-XXXXXX" autocomplete="off"></div>
+          <div class="field"><label for="rg-email">Email used for the order</label><input id="rg-email" type="email" autocomplete="email"></div>
+          <button class="btn" type="button" id="rgBtn" style="width:100%">Check my order</button>
+          <p class="form-msg" id="rgMsg" role="alert"></p>
+        </div>
+        <!-- STEP 2: the review form -->
+        <form id="reviewForm" style="display:none">
+          <h2>Write a review</h2>
+          <div class="field"><label for="rv-product">Which product?</label><select id="rv-product" name="product" required></select></div>
+          <div class="field">
+            <label>Your rating</label>
+            <div class="star-pick" id="starPick" role="radiogroup" aria-label="Rating">
+              <button type="button" data-star="1" aria-label="1 star">★</button>
+              <button type="button" data-star="2" aria-label="2 stars">★</button>
+              <button type="button" data-star="3" aria-label="3 stars">★</button>
+              <button type="button" data-star="4" aria-label="4 stars">★</button>
+              <button type="button" data-star="5" aria-label="5 stars">★</button>
+            </div>
+          </div>
+          <div class="field"><label for="rv-name">Your name</label><input id="rv-name" name="name" type="text" required></div>
+          <div class="field"><label for="rv-text">Your review</label><textarea id="rv-text" name="review" rows="4" required placeholder="What did you and your pet think?"></textarea></div>
+          <div class="field">
+            <label for="rv-photos">Add photos (optional)</label>
+            <input id="rv-photos" type="file" accept="image/*" multiple>
+            <div class="rv-thumbs" id="rvThumbs"></div>
+          </div>
+          <button class="btn" type="submit" id="reviewSubmitBtn" style="width:100%">Submit review</button>
+          <p class="form-msg" id="reviewMsg" role="alert"></p>
+        </form>
+      </div>
+      <aside class="panel">
+        <h2>How reviews work</h2>
+        <p style="margin-bottom:10px">Your review is emailed to our team first. Once we've checked it, it appears on the product's page for everyone to see.</p>
+        <p class="note">This keeps reviews honest and spam-free.</p>
+      </aside>
+    </div>
+    <h2 class="section-title" style="margin-top:44px">What customers say</h2>
+    <div class="rev-list" id="allReviews"></div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('show')"><img alt="Review photo" id="lightboxImg"></div>
+
+</main>
+
+<!-- ============================================================
+     SECTION: FOOTER
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="container foot-grid">
+    <div class="foot-brand">
+      <a href="#" class="logo" onclick="go('home');return false;"><span class="paw">🐾</span>Happy Tails</a>
+      <p style="margin-top:10px">Thoughtful everyday things for pets and the people who adore them.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Shop</h4>
+      <div class="foot-links" id="footShop"></div>
+    </div>
+    <!-- Policy links appear here automatically (see SECTION: POLICY PAGES) -->
+    <div class="foot-col" id="footHelpCol">
+      <h4>Help</h4>
+      <div class="foot-links" id="footPolicies"></div>
+    </div>
+    <div class="foot-col">
+      <h4>Contact</h4>
+      <div class="foot-links">
+        <a href="#" id="footMail"></a>
+        <a href="#" id="footWa"></a>
+      </div>
+    </div>
+  </div>
+  <div class="container copy" id="copyLine"></div>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<!-- ============================================================
+     SECTION: EXTERNAL CHATBOT (TIDIO)
+     Paste your Tidio (or Crisp / Tawk.to) chat code in the empty
+     space below, between the two lines. Tidio gives you a line
+     like:  <script src="//code.tidio.co/YOUR_KEY.js" async></script>
+     A chatbot pasted here shows on EVERY page, including the Home
+     page. The "Ask a question" button lives only on product pages
+     and simply OPENS this chatbot, so nobody has to type an email
+     (see SECTION: QUESTIONS & ANSWERS).
+     ============================================================ -->
+<!-- PASTE YOUR CHATBOT CODE BELOW THIS LINE -->
+
+<!-- PASTE YOUR CHATBOT CODE ABOVE THIS LINE -->
+
+<noscript><p style="padding:20px;text-align:center">Please turn on JavaScript to shop at Happy Tails.</p></noscript>
+
+<script>
+/* ============================================================
+   SECTION: STORE SETTINGS
+   Store name, contact details, countries and the announcement
+   bar. Each small setting below has its own labelled group.
+   ============================================================ */
+const STORE = {
+  // ----- SECTION: STORE NAME -----
+  name: "Happy Tails",
+
+  // ----- SECTION: CONTACT DETAILS -----
+  email: "hello@happytails.example",      // <-- put your real support email
+  whatsapp: "+10000000000",               // <-- put your WhatsApp number (with country code)
+
+  // ----- SECTION: COUNTRIES YOU SELL IN -----
+  defaultCountry: "US",                   // <-- the country shown first (must be inside activeCountries)
+  activeCountries: ["US"],                // <-- countries you sell in RIGHT NOW. Later add more, e.g. ["US","EU","CA"]
+
+  // ----- SECTION: ANNOUNCEMENT BAR TEXT -----
+  announcement: "Your package will be delivered within {time}."  // <-- green top bar text. {time} = "shipping" from COUNTRY SETTINGS. Write "" (empty) to hide the bar
+};
+
+/* ============================================================
+   SECTION: FORMSPREE SETTINGS
+   Paste your own Formspree form link here.
+   ============================================================ */
+const FORMSPREE = {
+  url: "https://formspree.io/f/your-form-id"   // <-- replace your-form-id with your real Formspree ID
+};
+
+/* ============================================================
+   SECTION: COUNTRY SETTINGS
+   Ready-made blocks for many countries. A country only goes LIVE
+   when its code is listed in activeCountries (SECTION: STORE
+   SETTINGS). All product prices are written in USD and multiplied
+   by "rate". Edit rate, symbol, delivery text, etc. To add a brand
+   new country, copy one block and change it.
+   ============================================================ */
+const COUNTRIES = {
+  US:{ name:"United States",  currency:"USD", symbol:"$",    rate:1,    decimals:2, shipping:"7 to 14 business days", postal:"ZIP code" },
+  CA:{ name:"Canada",         currency:"CAD", symbol:"CA$",  rate:1.36, decimals:2, shipping:"8 to 15 business days", postal:"Postal code" },
+  GB:{ name:"United Kingdom", currency:"GBP", symbol:"£",    rate:0.79, decimals:2, shipping:"7 to 14 business days", postal:"Postcode" },
+  EU:{ name:"Europe (EU)",    currency:"EUR", symbol:"€",    rate:0.92, decimals:2, shipping:"7 to 14 business days", postal:"Postal code" },
+  AU:{ name:"Australia",      currency:"AUD", symbol:"A$",   rate:1.5,  decimals:2, shipping:"9 to 16 business days", postal:"Postcode" },
+  AE:{ name:"UAE",            currency:"AED", symbol:"AED ", rate:3.67, decimals:2, shipping:"6 to 12 business days", postal:"P.O. Box / Area code" },
+  SA:{ name:"Saudi Arabia",   currency:"SAR", symbol:"SAR ", rate:3.75, decimals:2, shipping:"7 to 13 business days", postal:"Postal code" },
+  PK:{ name:"Pakistan",       currency:"PKR", symbol:"Rs ",  rate:280,  decimals:0, shipping:"10 to 18 business days", postal:"Postal code" },
+
+  // ===== TO ADD A NEW COUNTRY: paste a new CODE:{ ... } block above this line =====
+};
+
+/* ============================================================
+   SECTION: CATEGORIES DATA
+   The 5 main pet sub-niches. "color" must be one of the CSS
+   colors from THEME COLORS. "image" is optional: paste a picture
+   link to replace the built-in illustration.
+   ============================================================ */
+const CATEGORIES = [
+  { id:"grooming", title:"Pet Grooming & Cleaning", emoji:"🛁", color:"var(--sky)", hex:"#C8E6F8",
+    text:"Brushes, bath helpers and paw cleaners that make tidy-up time easy.", image:"" },
+  { id:"comfort",  title:"Pet Comfort & Sleep",     emoji:"🛏️", color:"var(--lavender)", hex:"#E3D9F7",
+    text:"Soft beds, blankets and cooling mats for the deepest naps.", image:"" },
+  { id:"feeding",  title:"Feeding & Hydration",     emoji:"🥣", color:"var(--mint)", hex:"#CDEFDF",
+    text:"Bowls, fountains and bottles for happy meals and fresh water.", image:"" },
+  { id:"toys",     title:"Interactive Toys & Play", emoji:"🧸", color:"var(--peach)", hex:"#FFD9C4",
+    text:"Squeaky, chewy and puzzle toys that keep minds and bodies busy.", image:"" },
+  { id:"travel",   title:"Travel & Safety",         emoji:"🦺", color:"var(--beige)", hex:"#F1E3CE",
+    text:"Harnesses, leashes and carriers for safe walks and road trips.", image:"" },
+
+  /* ----- New categories ----- */
+  { id:"collars",  title:"Pet Collars & Leashes",   emoji:"🎀", color:"var(--mint)", hex:"#CDEFDF",
+    text:"Soft collars, night-walk collars and strong leashes for every walk.", image:"" },
+  { id:"clothing", title:"Pet Clothing & Accessories", emoji:"🧥", color:"var(--lavender)", hex:"#E3D9F7",
+    text:"Sweaters, raincoats, bandanas and boots to keep your pet cozy and stylish.", image:"" },
+
+  // ===== TO ADD A NEW CATEGORY: paste a new { ... } block above this line =====
+];
+
+/* ============================================================
+   SECTION: PRODUCTS DATA
+   Each product is one block. To add a product: copy a block,
+   change the id (must be unique) and the category.
+     price     = price in USD (the site converts it per country)
+     oldPrice  = optional crossed-out price in USD (use 0 for none)
+     images    = list of picture links. Leave [] to use the
+                 built-in illustration with the emoji.
+     variants  = NOT written here any more. Colors / Sizes for a
+                 product are set in SECTION: PRODUCT VARIANTS (settings)
+                 just below this list, using the product's id.
+                 A product with no entry there shows no variants.
+   ============================================================ */
+const PRODUCTS = [
+
+  /* ----- Category: Pet Grooming & Cleaning ----- */
+  { id:"g1", category:"grooming", emoji:"🧹", name:"Gentle Deshedding Brush", price:14.99, oldPrice:24.99, images:[],
+    short:"Lifts loose fur without pulling.",
+    description:"A soft-touch brush that removes loose undercoat and keeps fur smooth and shiny. The comfortable grip makes weekly brushing quick and calm.",
+    features:["Rounded safe bristles","Non-slip comfy handle","Works for short and long coats"] },
+  { id:"g2", category:"grooming", emoji:"🧤", name:"Silicone Bath Scrubber Mitt", price:12.99, oldPrice:0, images:[],
+    short:"Massages and cleans at bath time.",
+    description:"Slip it on and lather up. The soft silicone nubs massage the skin while lifting dirt and loose hair, so baths feel like a spa moment.",
+    features:["Soft massaging nubs","Easy to rinse and dry","One size fits most hands"] },
+  { id:"g3", category:"grooming", emoji:"✂️", name:"Pet Nail Clipper with LED Light", price:11.99, oldPrice:16.99, images:[],
+    short:"See the quick and trim with confidence.",
+    description:"A sharp stainless steel clipper with a built-in LED light that helps you see the nail clearly, so trimming is calmer for both of you.",
+    features:["Bright LED guide light","Stainless steel blades","Safety guard included"] },
+  { id:"g4", category:"grooming", emoji:"🐾", name:"Portable Paw Cleaner Cup", price:16.99, oldPrice:0, images:[],
+    short:"Clean muddy paws before they reach the sofa.",
+    description:"Add a little water, dip a paw, twist and the soft bristles wipe away mud in seconds. Small enough to keep by the door or in the car.",
+    features:["Soft silicone bristles","Fits small to large paws","Compact and easy to carry"] },
+
+  /* ----- Category: Pet Comfort & Sleep ----- */
+  { id:"c1", category:"comfort", emoji:"🛏️", name:"Cloud Calming Donut Bed", price:34.99, oldPrice:49.99, images:[],
+    short:"A plush, cuddly nest for cozy sleep.",
+    description:"A round, raised-rim bed with a fluffy fill that cradles your pet's head and body. The snug shape makes a perfect safe spot to curl up.",
+    features:["Ultra-soft plush fabric","Non-slip bottom","Machine washable cover"] },
+  { id:"c2", category:"comfort", emoji:"🛋️", name:"Memory Foam Comfort Mat", price:39.99, oldPrice:0, images:[],
+    short:"Supportive foam for joints and naps.",
+    description:"A thick memory foam mat that spreads weight evenly and stays supportive night after night. Great for crates, cars and living rooms.",
+    features:["Supportive memory foam","Removable washable cover","Easy to move around"] },
+  { id:"c3", category:"comfort", emoji:"🧣", name:"Snuggle Fleece Blanket", price:19.99, oldPrice:0, images:[],
+    short:"Warm, soft and easy to wash.",
+    description:"A double-sided fleece blanket that keeps your pet warm on sofas, beds and in the car. It also protects your furniture from fur.",
+    features:["Soft two-sided fleece","Machine washable","Ready to fold and travel"] },
+  { id:"c4", category:"comfort", emoji:"🧊", name:"Cooling Gel Summer Mat", price:24.99, oldPrice:29.99, images:[],
+    short:"A cool spot for warm days.",
+    description:"Pressure-activated cooling gel gives your pet a refreshing place to rest in warm weather. No water, no electricity, no fuss.",
+    features:["Self-cooling gel","No refrigeration needed","Lightweight and foldable"] },
+
+  /* ----- Category: Feeding & Hydration ----- */
+  { id:"f1", category:"feeding", emoji:"🥣", name:"Slow Feeder Puzzle Bowl", price:15.99, oldPrice:0, images:[],
+    short:"Turns mealtime into a fun challenge.",
+    description:"Raised maze patterns slow down fast eaters and make mealtime more engaging. Easy to clean and non-slip on the floor.",
+    features:["Maze pattern slows eating","Non-slip base","Food-safe materials"] },
+  { id:"f2", category:"feeding", emoji:"💧", name:"Portable Travel Water Bottle", price:13.99, oldPrice:18.99, images:[],
+    short:"Fresh water on every walk.",
+    description:"A leak-proof bottle with a fold-out drinking tray. Press to fill the tray, and pour the rest back in when your pet is done.",
+    features:["Leak-proof lid","Built-in drinking tray","Clips onto bags"] },
+  { id:"f3", category:"feeding", emoji:"⛲", name:"Automatic Pet Water Fountain", price:32.99, oldPrice:44.99, images:[],
+    short:"Flowing fresh water all day.",
+    description:"A quiet fountain that keeps water moving and filtered, which many pets find more inviting than a still bowl.",
+    features:["Quiet pump","Replaceable filter","Large water tank"] },
+  { id:"f4", category:"feeding", emoji:"🍽️", name:"Raised Double Bowl Stand", price:27.99, oldPrice:0, images:[],
+    short:"Comfortable height for food and water.",
+    description:"A sturdy stand with two removable bowls, lifted to a comfortable height so your pet can eat and drink with less neck strain.",
+    features:["Two stainless steel bowls","Anti-slip feet","Easy to wipe clean"] },
+
+  /* ----- Category: Interactive Toys & Play ----- */
+  { id:"t1", category:"toys", emoji:"🧸", name:"Squeaky Plush Friends Set", price:17.99, oldPrice:0, images:[],
+    short:"Five soft squeakers for cuddles and play.",
+    description:"A set of five soft plush toys with squeakers inside. Perfect for fetch, cuddling and bringing joy to the living room.",
+    features:["Set of 5 toys","Reinforced stitching","Soft and lightweight"] },
+  { id:"t2", category:"toys", emoji:"⚽", name:"Interactive Treat Ball", price:12.99, oldPrice:15.99, images:[],
+    short:"Roll it and treats fall out.",
+    description:"Fill the ball with kibble or treats. As your pet rolls it around, rewards drop out, keeping them busy and thinking.",
+    features:["Adjustable treat opening","Durable and bouncy","Easy to clean"] },
+  { id:"t3", category:"toys", emoji:"🧵", name:"Knotted Rope Tug Toy", price:9.99, oldPrice:0, images:[],
+    short:"Tug, chew and play together.",
+    description:"A chunky cotton rope with strong knots for tug-of-war and chewing. Helps clean teeth while burning off energy.",
+    features:["Tightly braided cotton","Great for tug games","Good for chewing"] },
+  { id:"t4", category:"toys", emoji:"🔮", name:"Automatic Rolling Ball Toy", price:21.99, oldPrice:29.99, images:[],
+    short:"A self-moving ball that changes direction.",
+    description:"A rechargeable ball that rolls and bounces on its own and turns when it hits something, keeping pets curious when you are busy.",
+    features:["USB rechargeable","Auto direction change","Silicone outer shell"] },
+
+  /* ----- Category: Travel & Safety ----- */
+  { id:"v1", category:"travel", emoji:"🦺", name:"Reflective Adjustable Harness", price:19.99, oldPrice:0, images:[],
+    short:"Comfortable, secure and easy to see.",
+    description:"A padded no-pull style harness with reflective strips for evening walks. Quick-release buckles make it easy on and off.",
+    features:["Reflective strips","Breathable padded mesh","Adjustable chest and neck"] },
+  { id:"v2", category:"travel", emoji:"🦮", name:"Retractable Leash with LED Light", price:18.99, oldPrice:24.99, images:[],
+    short:"Room to explore, lit for night walks.",
+    description:"A smooth retractable leash with a one-hand brake and a built-in LED torch, so you can walk confidently after dark.",
+    features:["One-hand brake and lock","Built-in LED light","Tangle-free cord"] },
+  { id:"v3", category:"travel", emoji:"🎒", name:"Foldable Travel Carrier Bag", price:36.99, oldPrice:0, images:[],
+    short:"Soft, airy carrier for trips and vet visits.",
+    description:"A breathable carrier with mesh windows, a padded base and a shoulder strap. Folds flat when not in use.",
+    features:["Mesh ventilation","Padded shoulder strap","Folds flat for storage"] },
+  { id:"v4", category:"travel", emoji:"🚗", name:"Car Safety Seat Belt Clip", price:14.99, oldPrice:19.99, images:[],
+    short:"Keeps pets secure on every drive.",
+    description:"Clips to your pet's harness and the car's seat belt socket so they stay safely seated while you drive.",
+    features:["Fits standard seat belts","Sturdy metal clip","Adjustable length"] },
+
+  /* ----- Category: Pet Collars & Leashes ----- */
+  { id:"k1", category:"collars", emoji:"🎀", name:"Soft Padded Adjustable Collar", price:9.99, oldPrice:0, images:[],
+    short:"Gentle on the neck, easy to fit.",
+    description:"A soft padded collar with a quick-release buckle. The padding helps stop rubbing, and the strap adjusts as your pet grows.",
+    features:["Soft padded neck area","Quick-release buckle","Adjustable size"] },
+  { id:"k2", category:"collars", emoji:"✨", name:"Reflective Night-Walk Collar", price:10.99, oldPrice:14.99, images:[],
+    short:"Easy to spot in the dark.",
+    description:"A strong nylon collar with reflective stitching that catches light from cars and torches, so evening walks feel safer.",
+    features:["Reflective stitching","Strong nylon strap","Metal ring for tags and leash"] },
+  { id:"k3", category:"collars", emoji:"🔔", name:"Breakaway Collar with Bell", price:8.99, oldPrice:0, images:[],
+    short:"A safety buckle for curious climbers.",
+    description:"A light collar with a breakaway buckle that opens under strong pressure, plus a small bell so you always know where your pet is.",
+    features:["Safety breakaway buckle","Removable bell","Light and comfortable"] },
+  { id:"k4", category:"collars", emoji:"🧵", name:"Braided Rope Leash", price:12.99, oldPrice:0, images:[],
+    short:"Strong, soft and comfortable to hold.",
+    description:"A thick braided leash with a padded handle and a sturdy clip. Strong enough for everyday walks and gentle on your hands.",
+    features:["Padded handle","Strong metal clip","Weather-resistant rope"] },
+
+  /* ----- Category: Pet Clothing & Accessories ----- */
+  { id:"w1", category:"clothing", emoji:"🧶", name:"Cozy Knit Pet Sweater", price:16.99, oldPrice:0, images:[],
+    short:"Warm and stretchy for cool days.",
+    description:"A soft knit sweater that keeps small and medium pets warm on chilly days. Easy leg openings make it simple to put on.",
+    features:["Soft stretchy knit","Easy leg openings","Machine washable"] },
+  { id:"w2", category:"clothing", emoji:"🧥", name:"Waterproof Pet Raincoat", price:19.99, oldPrice:26.99, images:[],
+    short:"Keeps your pet dry on rainy walks.",
+    description:"A light hooded raincoat with a waterproof outer layer and reflective trim. Fasteners are adjustable for a comfortable fit.",
+    features:["Waterproof outer layer","Reflective trim","Adjustable fasteners"] },
+  { id:"w3", category:"clothing", emoji:"🎀", name:"Bandana & Bow Tie Set (3 pieces)", price:8.99, oldPrice:0, images:[],
+    short:"Cute looks for photos and parties.",
+    description:"A set of three colourful bandanas and bow ties that clip or tie on easily. A fun way to dress up your pet for special days.",
+    features:["Set of 3","Soft cotton feel","Easy to put on"] },
+  { id:"w4", category:"clothing", emoji:"🥾", name:"Non-Slip Pet Boots (Set of 4)", price:13.99, oldPrice:0, images:[],
+    short:"Protect paws on hot, cold or slippery ground.",
+    description:"Soft boots with a non-slip sole and an adjustable strap. Helpful on wet floors, winter paths and rough ground.",
+    features:["Non-slip sole","Adjustable strap","Set of 4"] },
+
+  // ===== TO ADD A NEW PRODUCT: paste a new { ... } block above this line =====
+];
+
+/* ============================================================
+   SECTION: POLICY PAGES
+   Ready-made pages for your store policies. Paste your text
+   between the two ` marks (backticks) of "content".
+     - Leave content EMPTY (``) = the page and its footer link stay hidden.
+     - Write text in it = the page opens and a link appears in the footer.
+     - Leave a blank line between paragraphs.
+     - A line starting with ## becomes a small heading.
+     - Do NOT type the ` mark or the ${ symbols inside your text.
+   ============================================================ */
+const POLICIES = [
+  { id:"privacy",  title:"Privacy Policy",          content:`` },
+  { id:"refund",   title:"Return & Refund Policy",  content:`` },
+  { id:"shipping", title:"Shipping Policy",         content:`` },
+  { id:"terms",    title:"Terms of Service",        content:`` },
+  { id:"about",    title:"About Us",                content:`` },
+  { id:"contact",  title:"Contact Us",              content:`` },
+
+  // ===== TO ADD A NEW POLICY PAGE: paste a new { id, title, content } block above this line =====
+];
+
+/* ============================================================
+   SECTION: PRODUCT VARIANTS (settings)
+   Colors, sizes (or any other option) for each product.
+   A product shows variants ONLY if its id is listed here.
+   Right now nothing is listed, so no product shows variants.
+
+   How to add: copy one line, put the product's id (from
+   SECTION: PRODUCTS DATA) on the left, and write the options.
+
+   Simple options (just words):
+     g1: { Size:["S","M","L"] },
+
+   Options with a picture, so the main photo changes when the
+   customer taps the option (like Amazon / Daraz):
+     c1: { Color:[
+             { name:"Pink",     image:"images/collar-pink.jpg" },
+             { name:"Sky Blue", image:"images/collar-blue.jpg" }
+           ],
+           Size:["S","M","L"] },
+
+   Options with a small color dot (swatch) instead of a picture:
+     c1: { Color:[ { name:"Pink", swatch:"#EE7B8E" }, { name:"Beige", swatch:"#F1E3CE" } ] },
+
+   You can mix: an option may have both a swatch and an image.
+
+   Any other option NAME works too (not only Color and Size).
+   For example a "Games" option for a game console:
+     t1: { Games:["500 Games","400 Games"] },
+   or all together:
+     t1: { Color:[...], Games:["500 Games","400 Games"] },
+   Tip: do not use the ' mark inside an option name.
+   ============================================================ */
+const VARIANTS = {
+  /* Right now this list is EMPTY, so no product shows any variants.
+     A product shows variants ONLY after you add its line here.
+     Copy one of the examples below (remove the // at the start),
+     put the product's id on the left, and write your options. */
+
+  // g1: { Color:[ {name:"Pink",swatch:"#EE7B8E"}, {name:"Sky Blue",swatch:"#8FD0EE"} ], Size:["S","M","L"] },
+  // t1: { Games:["500 Games","400 Games"] },
+
+  // ===== TO ADD OR CHANGE VARIANTS: this is a normal JavaScript object.
+  // Each line is   productId: { OptionName:[ ... ], OptionName2:[ ... ] },
+  // An option can be plain words ["S","M","L"], or objects with a
+  // swatch colour { name:"Pink", swatch:"#EE7B8E" }, or a picture
+  // { name:"Pink", image:"images/pink.jpg" }. You can add a THIRD
+  // (or more) option to any product too, for example:
+  //   g1: { Color:[...], Size:["S","M","L"], Material:["Cotton","Rubber"] },
+  // ===================================================================
+};
+
+/* ============================================================
+   SECTION: REVIEW SETTINGS
+   ============================================================ */
+const REVIEW_SETTINGS = {
+  requireOrder: true,   // true = only customers with an order number can write a review. false = anyone can
+  maxPhotos: 3,         // how many photos one review can have
+  allowedOrders: [],    // optional: order numbers you approve by hand, e.g. ["HT-ABC123","HT-XYZ789"].
+                        // Useful when a customer ordered on another phone/computer.
+  showOnProductPage: true   // show reviews under each product
+};
+
+/* ============================================================
+   SECTION: QUESTION SETTINGS
+   The "Ask a question" button on every product page. It opens
+   your chatbot (Tidio / Crisp / Tawk.to), so customers do not
+   need to give an email. You read the chats in your chatbot's
+   own dashboard.
+   ============================================================ */
+const QA_SETTINGS = {
+  enabled: true    // true = show the "Ask a question" box on product pages. false = hide it
+};
+
+/* ============================================================
+   SECTION: QUESTIONS & ANSWERS DATA
+   Optional. If you want a question and its answer to be visible
+   to everyone on a product page, paste a new block here.
+   product = the product id
+   ============================================================ */
+const QUESTIONS = [
+  // { product:"g1", q:"Does it work on long fur?", a:"Yes, it works on all coat types.", date:"2026-09-01" },
+  // ===== TO ADD A NEW QUESTION + ANSWER: paste a new { ... } block above this line =====
+];
+
+/* ============================================================
+   SECTION: CUSTOMER REVIEWS DATA
+   Reviews that are visible to everyone. When a customer sends a
+   review, it arrives in your Formspree email. If you like it,
+   copy it here as a new block (photos too: paste the photo link
+   or 'images/name.jpg').
+     product = the product id      rating = 1 to 5
+   ============================================================ */
+const REVIEWS = [
+  // { product:"g1", name:"Sara K.", rating:5, date:"2026-09-01", text:"My dog loves it!", images:[], verified:true },
+  // ===== TO ADD A NEW REVIEW: paste a new { ... } block above this line =====
+];
+
+/* ============================================================
+   SECTION: APP LOGIC  (you normally do not need to edit below)
+   ============================================================ */
+const $ = s => document.querySelector(s);
+const state = { country: STORE.defaultCountry, view:"home", catId:null, prodId:null, qty:1, orderId:null, query:"", backTo:"category", policyId:null, selectedVariants:{}, variantImg:"", reviewProd:null, reviewOrder:null, orderViewId:null, rating:0, photos:[] };
+
+/* ---------- helpers ---------- */
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const getCat  = id => CATEGORIES.find(c => c.id === id);
+const getProd = id => PRODUCTS.find(p => p.id === id);
+const C = () => COUNTRIES[state.country];
+function money(usd){
+  const c = C();
+  return c.symbol + (usd * c.rate).toLocaleString('en-US',{minimumFractionDigits:c.decimals,maximumFractionDigits:c.decimals});
+}
+function toast(msg){
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast.t); toast.t = setTimeout(()=>t.classList.remove('show'), 4200);
+}
+
+/* Built-in illustration tiles (used until you add your own photos) */
+const ART_BG = ['#FFD9C4','#CDEFDF','#C8E6F8','#F1E3CE','#E3D9F7'];
+function shade(hex, amt){
+  const n = parseInt(hex.slice(1), 16);
+  const r = Math.max(0, Math.min(255, (n >> 16) + amt));
+  const g = Math.max(0, Math.min(255, ((n >> 8) & 255) + amt));
+  const b = Math.max(0, Math.min(255, (n & 255) + amt));
+  return '#' + [r, g, b].map(c => c.toString(16).padStart(2, '0')).join('');
+}
+function makeArt(emoji, bg, v = 0){
+  const dark = shade(bg, -28), light = shade(bg, 18);
+  const dots = [[60,54],[344,246],[336,58],[58,238],[200,40],[200,262]][ (v*2) % 6 ];
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+    <defs>
+      <linearGradient id="g${v}" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="${light}"/>
+        <stop offset="100%" stop-color="${bg}"/>
+      </linearGradient>
+    </defs>
+    <rect width="400" height="300" fill="url(#g${v})"/>
+    <circle cx="${dots[0]}" cy="${dots[1]}" r="46" fill="#fff" opacity=".28"/>
+    <circle cx="${400-dots[0]}" cy="${300-dots[1]}" r="30" fill="${dark}" opacity=".14"/>
+    <circle cx="200" cy="150" r="82" fill="#fff" opacity=".92"/>
+    <circle cx="200" cy="150" r="82" fill="none" stroke="${dark}" stroke-width="2" opacity=".18"/>
+    <ellipse cx="200" cy="222" rx="58" ry="8" fill="${dark}" opacity=".12"/>
+    <text x="200" y="176" font-size="86" text-anchor="middle">${emoji}</text>
+  </svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+function productImages(p){
+  if(p.images && p.images.length) return p.images;
+  const cat = getCat(p.category), base = (cat && cat.hex) || '#FFD9C4';
+  return [makeArt(p.emoji, base, 0), makeArt(p.emoji, ART_BG[(ART_BG.indexOf(base)+1)%5], 1), makeArt(p.emoji, ART_BG[(ART_BG.indexOf(base)+2)%5], 2)];
+}
+function orderTotalUSD(){ const p = getProd(state.prodId); return p ? p.price * state.qty : 0; }
+
+/* ---------- router ---------- */
+function go(view, opts = {}, push = true){
+  Object.assign(state, opts);
+  if(view === 'product' && (state.view === 'search' || state.view === 'category')) state.backTo = state.view;
+  if(view === 'home') state.query = '';
+  if(view === 'search' && !state.query) view = 'home';
+  if(view !== 'search') $('#searchInput').value = '';
+  if(view === 'category' && !state.catId) view = 'home';
+  if(view === 'policy' && !state.policyId) view = 'home';
+  if((view === 'product' || view === 'checkout' || view === 'payment') && !state.prodId) view = 'home';
+  if(view === 'order' && !findOrder(state.orderViewId)) view = 'orders';
+  state.view = view;
+  renderCurrent();
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + view));
+  window.scrollTo({top:0, behavior:'auto'});
+  if(push){ try{ history.pushState({view, catId:state.catId, prodId:state.prodId, qty:state.qty, query:state.query, backTo:state.backTo, policyId:state.policyId, orderViewId:state.orderViewId}, ''); }catch(e){} }
+}
+window.addEventListener('popstate', e => {
+  const s = e.state || {view:'home'};
+  go(s.view, s, false);
+});
+function scrollToCategories(){
+  if(state.view !== 'home') go('home');
+  setTimeout(() => $('#categories').scrollIntoView({behavior:'smooth'}), 60);
+}
+function renderCurrent(){
+  ({home:renderHome, policy:renderPolicy, search:renderSearch, category:renderCategory, product:renderProduct, checkout:renderCheckout, payment:renderPayment, review:renderReview, orders:renderOrders, order:renderOrderDetail}[state.view] || renderHome)();
+}
+
+/* ---------- country ---------- */
+let ACTIVE = [];
+function setupCountry(){
+  ACTIVE = STORE.activeCountries.filter(k => COUNTRIES[k]);
+  if(!ACTIVE.length) ACTIVE = [Object.keys(COUNTRIES)[0]];
+  const sel = $('#countrySelect');
+  sel.innerHTML = ACTIVE.map(k => '<option value="'+k+'">'+esc(COUNTRIES[k].name)+' ('+COUNTRIES[k].currency+')</option>').join('');
+  state.country = ACTIVE.includes(STORE.defaultCountry) ? STORE.defaultCountry : ACTIVE[0];
+  try{ const saved = localStorage.getItem('ht_country'); if(saved && ACTIVE.includes(saved)) state.country = saved; }catch(e){}
+  sel.value = state.country;
+  /* Selling in only one country? Then the country menu stays hidden. */
+  if(ACTIVE.length === 1) document.querySelector('.country-pick').style.display = 'none';
+  sel.addEventListener('change', () => {
+    state.country = sel.value;
+    try{ localStorage.setItem('ht_country', state.country); }catch(e){}
+    applyCountryText(); renderCurrent();
+    toast('Prices now shown in ' + C().currency);
+  });
+  applyCountryText();
+}
+function applyCountryText(){
+  const bar = $('#announceBar');
+  if(bar){
+    bar.textContent = (STORE.announcement || '').replace('{time}', C().shipping);
+    bar.style.display = STORE.announcement ? '' : 'none';
+  }
+  $('#postalLabel').textContent = C().postal;
+}
+
+/* ---------- home ---------- */
+function renderHome(){
+  $('#catGrid').innerHTML = CATEGORIES.map(c => `
+    <button class="cat-card tilt" style="--c:${c.color}" onclick="go('category',{catId:'${c.id}'})">
+      <img src="${c.image || makeArt(c.emoji, c.hex || '#FFD9C4', 0)}" alt="${esc(c.title)}" loading="lazy">
+      <h3>${esc(c.title)}</h3>
+      <p>${esc(c.text)}</p>
+      <span class="cat-cta">See products</span>
+    </button>`).join('');
+}
+
+/* ---------- category page ---------- */
+function productCard(p){
+  return `
+    <article class="prod-card tilt" onclick="go('product',{prodId:'${p.id}',qty:1})">
+      ${p.oldPrice ? '<span class="tag">Sale</span>' : ''}
+      <img src="${productImages(p)[0]}" alt="${esc(p.name)}" loading="lazy">
+      <div class="prod-body">
+        <h3>${esc(p.name)}</h3>
+        <p class="mini">${esc(p.short)}</p>
+        ${miniRating(p.id)}
+        <div class="price-row"><b>${money(p.price)}</b>${p.oldPrice ? '<s>'+money(p.oldPrice)+'</s>' : ''}</div>
+        <button class="btn btn-sm" type="button">View details</button>
+      </div>
+    </article>`;
+}
+function renderCategory(){
+  const c = getCat(state.catId);
+  $('#catHead').style.setProperty('--c', c.color);
+  $('#catHead').innerHTML = `<div class="big">${c.emoji}</div><div><h1>${esc(c.title)}</h1><p>${esc(c.text)}</p></div>`;
+  $('#prodGrid').innerHTML = PRODUCTS.filter(p => p.category === c.id).map(productCard).join('');
+}
+
+/* ---------- product page ---------- */
+function renderProduct(){
+  const p = getProd(state.prodId), c = getCat(p.category), imgs = productImages(p);
+  if(state.backTo === 'search' && state.query){
+    $('#backToCat').textContent = '← Back to search results';
+    $('#backToCat').onclick = () => go('search');
+  } else {
+    $('#backToCat').textContent = '← Back to ' + c.title;
+    $('#backToCat').onclick = () => go('category', {catId:p.category});
+  }
+  /* Pick the first option of every variant type by default, so
+     Buy now always has a valid selection. */
+  state.selectedVariants = {}; state.variantImg = '';
+  const vs = getVariants(p);
+  if(vs) Object.keys(vs).forEach(k => { state.selectedVariants[k] = vName(vs[k][0]); });
+  if(vs) Object.keys(vs).forEach(k => { const o = vs[k][0]; if(vImg(o) && !state.variantImg) state.variantImg = vImg(o); });
+  $('#productDetail').innerHTML = `
+    <div>
+      <img class="pd-main" id="pdMain" src="${state.variantImg || imgs[0]}" alt="${esc(p.name)}">
+      <div class="pd-thumbs">${imgs.map((s,i)=>`<img src="${s}" class="${i?'':'on'}" alt="Photo ${i+1} of ${esc(p.name)}" onclick="swapImg(this)">`).join('')}</div>
+    </div>
+    <div class="pd-info">
+      <span class="crumb">${esc(c.title)}</span>
+      <h1>${esc(p.name)}</h1>
+      <div class="pd-price"><b>${money(p.price)}</b>${p.oldPrice ? '<s>'+money(p.oldPrice)+'</s>' : ''}</div>
+      <p class="desc">${esc(p.description)}</p>
+      <ul>${p.features.map(f=>'<li>✓ '+esc(f)+'</li>').join('')}</ul>
+      ${miniRating(p.id)}
+      ${variantPickerHTML(p)}
+      <div class="buy-row">
+        <div class="qty" aria-label="Quantity">
+          <button type="button" aria-label="Less" onclick="changeQty(-1)">−</button>
+          <span id="qtyVal">${state.qty}</span>
+          <button type="button" aria-label="More" onclick="changeQty(1)">+</button>
+        </div>
+        <!-- BUY NOW BUTTON -->
+        <button class="btn" type="button" onclick="go('checkout')">Buy now</button>
+      </div>
+      <div class="ship-note">🚚 Delivery: ${esc(C().shipping)}</div>
+    </div>`;
+  renderProductReviews(p);
+  renderProductQA(p);
+}
+/* ============================================================
+   SECTION: PRODUCT VARIANTS (behaviour)
+   Draws the Color / Size picker for a product's "variants" field
+   and keeps the choice in state.selectedVariants. See
+   SECTION: PRODUCTS DATA for how to add variants to a product.
+   ============================================================ */
+const vName = o => (typeof o === 'string') ? o : o.name;
+const vImg  = o => (typeof o === 'object' && o.image) ? o.image : '';
+const vSwatch = o => (typeof o === 'object' && o.swatch) ? o.swatch : '';
+function getVariants(p){
+  const v = VARIANTS[p.id];
+  return (v && Object.keys(v).length) ? v : null;
+}
+function variantPickerHTML(p){
+  const vs = getVariants(p);
+  if(!vs) return '';
+  return Object.entries(vs).map(([label, options]) => `
+    <div class="variant-group" data-label="${esc(label)}">
+      <span class="variant-label">${esc(label)}: <b class="variant-val">${esc(state.selectedVariants[label])}</b></span>
+      <div class="variant-options">
+        ${options.map((o,i) => `<button type="button" class="variant-pill${vName(o)===state.selectedVariants[label]?' selected':''}" data-i="${i}" onclick="pickVariant(this.closest('.variant-group').dataset.label,${i})">${vSwatch(o)?`<span class="vdot" style="background:${esc(vSwatch(o))}"></span>`:''}${vImg(o)?`<img class="vimg" src="${esc(vImg(o))}" alt="">`:''}${esc(vName(o))}</button>`).join('')}
+      </div>
+    </div>`).join('');
+}
+function pickVariant(label, i){
+  const p = getProd(state.prodId), o = getVariants(p)[label][i];
+  state.selectedVariants[label] = vName(o);
+  if(vImg(o)){ state.variantImg = vImg(o); $('#pdMain').src = vImg(o); document.querySelectorAll('.pd-thumbs img').forEach(t => t.classList.remove('on')); }
+  document.querySelectorAll('.variant-group').forEach(g => {
+    if(g.dataset.label !== label) return;
+    g.querySelector('.variant-val').textContent = vName(o);
+    g.querySelectorAll('.variant-pill').forEach(btn => btn.classList.toggle('selected', +btn.dataset.i === i));
+  });
+}
+function variantSummaryText(){
+  const v = state.selectedVariants;
+  if(!v || !Object.keys(v).length) return '';
+  return Object.entries(v).map(([k, val]) => k + ': ' + val).join(', ');
+}
+function swapImg(el){
+  $('#pdMain').src = el.src; state.variantImg = '';
+  document.querySelectorAll('.pd-thumbs img').forEach(i => i.classList.toggle('on', i === el));
+}
+function changeQty(d){
+  state.qty = Math.min(10, Math.max(1, state.qty + d));
+  $('#qtyVal').textContent = state.qty;
+}
+
+/* ---------- order summary (used on checkout + payment pages) ---------- */
+function summaryHTML(){
+  const p = getProd(state.prodId), total = orderTotalUSD(), vt = variantSummaryText();
+  return `
+    <h2>Your order</h2>
+    <div class="sum-item">
+      <img src="${state.variantImg || productImages(p)[0]}" alt="">
+      <div><b>${esc(p.name)}</b><br><span style="color:var(--ink-soft)">${vt ? esc(vt) + ' &middot; ' : ''}Quantity: ${state.qty}</span></div>
+    </div>
+    <div class="sum-line"><span>Items</span><span>${money(total)}</span></div>
+    <div class="sum-line total"><span>Total</span><span>${money(total)}</span></div>
+    <p class="note">Delivery: ${esc(C().shipping)}</p>`;
+}
+
+/* ---------- checkout ---------- */
+function renderCheckout(){
+  $('#checkoutSummary').innerHTML = summaryHTML();
+  $('#postalLabel').textContent = C().postal;
+  $('#orderForm').setAttribute('action', FORMSPREE.url);
+  $('#formMsg').className = 'form-msg';
+}
+$('#orderForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = $('#confirmBtn'), msg = $('#formMsg'), p = getProd(state.prodId);
+  msg.className = 'form-msg';
+  btn.disabled = true; btn.textContent = 'Sending your order...';
+  state.orderId = 'HT-' + Date.now().toString(36).toUpperCase();
+  const data = Object.fromEntries(new FormData(e.target));
+  Object.assign(data, {
+    _subject: 'New ' + STORE.name + ' order ' + state.orderId + ': ' + p.name,
+    order_id: state.orderId,
+    product: p.name,
+    product_id: p.id,
+    variant: variantSummaryText(),
+    quantity: state.qty,
+    total: money(orderTotalUSD()),
+    currency: C().currency,
+    country: C().name
+  });
+  try{
+    if(FORMSPREE.url.includes('your-form-id')){
+      toast('Preview mode: Formspree is not connected yet, so this order was not emailed.');
+      saveLocalOrder(data);
+      go('payment');
+    } else {
+      const res = await fetch(FORMSPREE.url, {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify(data)
+      });
+      if(!res.ok) throw new Error('Formspree error');
+      e.target.reset();
+      saveLocalOrder(data);
+      go('payment');
+    }
+  }catch(err){
+    msg.textContent = 'We could not send your order. Check your internet connection and press Confirm order again.';
+    msg.className = 'form-msg err';
+  }finally{
+    btn.disabled = false; btn.textContent = 'Confirm order';
+  }
+});
+
+/* ---------- payment ---------- */
+function renderPayment(){
+  $('#orderOk').innerHTML = '✅ Order details received. Your order number is <b>' + esc(state.orderId || 'HT-PREVIEW') + '</b>. You can see your order details any time in <b>Orders &amp; Reviews</b> at the top.';
+  $('#paymentSummary').innerHTML = summaryHTML();
+  document.querySelectorAll('#payList .pay-btn').forEach(a => {
+    const list = (a.dataset.countries || 'ALL').split(',').map(s => s.trim());
+    a.style.display = (list.includes('ALL') || list.includes(state.country)) ? '' : 'none';
+  });
+}
+
+
+/* ============================================================
+   SECTION: REVIEWS (behaviour)
+   Shows reviews, checks the order number before a customer can
+   write one, and emails new reviews to you through Formspree.
+   ============================================================ */
+const LS = {
+  get(k){ try{ return JSON.parse(localStorage.getItem(k) || '[]'); }catch(e){ return []; } },
+  set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+function saveLocalOrder(data){
+  const list = LS.get('ht_orders');
+  list.push({ id:data.order_id, email:String(data.email||'').trim().toLowerCase(), prodId:data.product_id,
+    name:data.product, variant:data.variant || '', qty:data.quantity, total:data.total,
+    date:new Date().toISOString().slice(0,10), img:state.variantImg || '' });
+  LS.set('ht_orders', list.slice(-40));
+}
+const starsHTML = n => '<span class="stars" aria-label="'+n+' out of 5">' + [1,2,3,4,5].map(i => i <= Math.round(n) ? '★' : '<span class="off">★</span>').join('') + '</span>';
+const reviewsFor = id => REVIEWS.filter(r => r.product === id);
+function avgOf(list){ return list.reduce((a,r) => a + (+r.rating||0), 0) / list.length; }
+function miniRating(id){
+  const l = reviewsFor(id);
+  return l.length ? '<div class="mini-rate">' + starsHTML(avgOf(l)) + ' ' + avgOf(l).toFixed(1) + ' (' + l.length + ')</div>' : '';
+}
+function reviewCardHTML(r, showProduct, pending){
+  const p = getProd(r.product);
+  return `<article class="rev-card">
+    <div class="rev-top"><b>${esc(r.name)}</b>${starsHTML(r.rating)}
+      ${pending ? '<span class="rev-badge wait">Waiting for approval</span>' : (r.verified === false ? '' : '<span class="rev-badge">Verified buyer</span>')}
+      ${r.date ? '<span class="rev-date">'+esc(r.date)+'</span>' : ''}</div>
+    ${showProduct && p ? '<div class="rev-prod">on '+esc(p.name)+'</div>' : ''}
+    <p>${esc(r.text)}</p>
+    ${(r.images && r.images.length) ? '<div class="rev-imgs">'+r.images.map(src => '<img src="'+esc(src)+'" alt="Customer photo" loading="lazy" onclick="openLightbox(this.src)">').join('')+'</div>' : ''}
+  </article>`;
+}
+function openLightbox(src){ $('#lightboxImg').src = src; $('#lightbox').classList.add('show'); }
+function renderProductReviews(p){
+  const box = $('#productReviews');
+  if(!REVIEW_SETTINGS.showOnProductPage){ box.innerHTML = ''; return; }
+  const list = reviewsFor(p.id), mine = LS.get('ht_pending').filter(r => r.product === p.id);
+  box.innerHTML = `
+    <div class="rev-head">
+      <h2 class="section-title" style="margin:0">Customer reviews</h2>
+      <div class="rev-avg">${list.length ? '<b>'+avgOf(list).toFixed(1)+'</b>'+starsHTML(avgOf(list))+'<span>'+list.length+' review'+(list.length>1?'s':'')+'</span>' : ''}</div>
+    </div>
+    <div class="rev-list">${mine.map(r => reviewCardHTML(r,false,true)).join('')}${list.map(r => reviewCardHTML(r,false)).join('') || (mine.length ? '' : '<p class="section-sub">No reviews yet.</p>')}</div>`;
+}
+/* ============================================================
+   SECTION: ORDERS & REVIEWS (behaviour)
+   Shows the orders placed on this phone/computer, the details of
+   one order, and the "Write a review" button inside it.
+   ============================================================ */
+const findOrder = id => LS.get('ht_orders').find(o => o.id === id);
+const orderTitle = o => { const p = getProd(o.prodId); return p ? p.name : (o.name || 'Product'); };
+const orderThumb = o => { const p = getProd(o.prodId); return o.img || (p ? productImages(p)[0] : ''); };
+function renderOrders(){
+  const list = LS.get('ht_orders').slice().reverse();
+  $('#ordersList').innerHTML = list.length ? list.map(o => `
+    <button type="button" class="ord-card" onclick="go('order',{orderViewId:'${esc(o.id)}'})">
+      <img src="${esc(orderThumb(o))}" alt="">
+      <span>
+        <b>${esc(orderTitle(o))}</b>
+        <small>${o.variant ? esc(o.variant) + ' &middot; ' : ''}Quantity: ${esc(o.qty || 1)}</small>
+        <small>Order number: ${esc(o.id)}${o.date ? ' &middot; ' + esc(o.date) : ''}</small>
+      </span>
+      <em>View</em>
+    </button>`).join('') : `
+    <div class="panel">
+      <h2>No orders yet</h2>
+      <p style="margin-bottom:16px">Orders you place on this phone or computer will show up here. Open an order to see its details and write a review.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-sm" type="button" onclick="go('home')">Start shopping</button>
+        <button class="btn btn-sm btn-ghost" type="button" onclick="startReview();return false;">Write a review</button>
+      </div>
+    </div>`;
+}
+function renderOrderDetail(){
+  const o = findOrder(state.orderViewId), p = getProd(o.prodId);
+  const done = LS.get('ht_reviewed').includes(o.id + '|' + o.prodId);
+  $('#orderDetail').innerHTML = `
+    <div class="panel">
+      <h2>Order details</h2>
+      <div class="sum-item">
+        <img src="${esc(orderThumb(o))}" alt="">
+        <div><b>${esc(orderTitle(o))}</b><br><span style="color:var(--ink-soft)">${o.variant ? esc(o.variant) + ' &middot; ' : ''}Quantity: ${esc(o.qty || 1)}</span></div>
+      </div>
+      ${o.total ? '<div class="sum-line total"><span>Total</span><span>' + esc(o.total) + '</span></div>' : ''}
+      ${o.date ? '<div class="sum-line"><span>Ordered on</span><span>' + esc(o.date) + '</span></div>' : ''}
+      ${p ? '<p style="margin-top:14px"><button class="btn btn-ghost btn-sm" type="button" onclick="go(\'product\',{prodId:\'' + esc(p.id) + '\',qty:1})">View product</button></p>' : ''}
+    </div>
+    <aside class="panel">
+      <h2>Write a review</h2>
+      <p style="margin-bottom:14px"><b>Instructions:</b> Use these details to write a review. You will need to type this order number and email on the review page.</p>
+      <div class="ord-info">
+        <div class="row"><span>Order number</span><b>${esc(o.id)}</b></div>
+        <div class="row"><span>Email</span><b>${esc(o.email)}</b></div>
+      </div>
+      ${done ? '<p class="note" style="margin-top:0">You already sent a review for this product. Thank you!</p>'
+             : '<button class="btn" type="button" style="width:100%" onclick="startReview(\'' + esc(o.prodId) + '\')">Write a review</button>'}
+    </aside>`;
+}
+function startReview(prodId){
+  state.reviewOrder = null; state.rating = 0; state.photos = [];
+  $('#rg-order').value = ''; $('#rg-email').value = '';
+  $('#rgMsg').className = 'form-msg'; $('#reviewMsg').className = 'form-msg';
+  drawThumbs();
+  go('review', { reviewProd: prodId || null, reviewOrder: null });
+}
+
+/* ============================================================
+   SECTION: QUESTIONS & ANSWERS (behaviour)
+   Shows the "Ask a question" button on a product page. The button
+   opens your chatbot (Tidio, Crisp or Tawk.to), so the customer
+   does not have to type an email. Answers you pasted into
+   QUESTIONS are listed below the button.
+   ============================================================ */
+function openChat(){
+  try{
+    if(window.tidioChatApi){ tidioChatApi.open(); return; }
+    if(window.$crisp){ $crisp.push(['do','chat:open']); return; }
+    if(window.Tawk_API && Tawk_API.maximize){ Tawk_API.maximize(); return; }
+  }catch(e){}
+  toast('Please use the chat bubble on this page to ask your question.');
+}
+function renderProductQA(p){
+  const box = $('#productQA');
+  if(!QA_SETTINGS.enabled){ box.innerHTML = ''; return; }
+  const list = QUESTIONS.filter(x => x.product === p.id);
+  box.innerHTML = `
+    <div class="rev-head">
+      <h2 class="section-title" style="margin:0">Questions &amp; answers</h2>
+      <button class="btn btn-sm" type="button" onclick="openChat()">Ask a question</button>
+    </div>
+    <div class="qa-list">${list.length ? list.map(x => `
+      <article class="qa-card">
+        <div class="qa-q">Q: ${esc(x.q)}</div>
+        ${x.a ? '<div class="qa-a">A: '+esc(x.a)+'</div>' : ''}
+        ${x.date ? '<div class="qa-date">'+esc(x.date)+'</div>' : ''}
+      </article>`).join('') : '<p class="section-sub">No questions yet. Tap "Ask a question" to chat with us about this product.</p>'}</div>`;
+}
+function renderReview(){
+  $('#allReviews').innerHTML = REVIEWS.length ? REVIEWS.map(r => reviewCardHTML(r,true)).join('') : '<p class="section-sub">No reviews yet.</p>';
+  if(!REVIEW_SETTINGS.requireOrder && !state.reviewOrder) state.reviewOrder = { id:'OPEN', email:'', prods:null };
+  const ok = !!state.reviewOrder;
+  $('#reviewGate').style.display = ok ? 'none' : '';
+  $('#reviewForm').style.display = ok ? '' : 'none';
+  if(ok) prepareReviewForm();
+}
+function prepareReviewForm(){
+  const ro = state.reviewOrder;
+  const prods = PRODUCTS.filter(p => !ro.prods || ro.prods.includes(p.id));
+  const sel = $('#rv-product');
+  sel.innerHTML = prods.map(p => '<option value="'+p.id+'">'+esc(p.name)+'</option>').join('');
+  if(state.reviewProd && prods.some(p => p.id === state.reviewProd)) sel.value = state.reviewProd;
+  paintStars();
+}
+function paintStars(){ document.querySelectorAll('#starPick button').forEach(b => b.classList.toggle('on', +b.dataset.star <= state.rating)); }
+document.querySelectorAll('#starPick button').forEach(b => b.addEventListener('click', () => { state.rating = +b.dataset.star; paintStars(); }));
+
+$('#rgBtn').addEventListener('click', () => {
+  const id = $('#rg-order').value.trim().toUpperCase(), em = $('#rg-email').value.trim().toLowerCase(), msg = $('#rgMsg');
+  const mine = LS.get('ht_orders').filter(o => o.id === id && o.email === em);
+  const approved = REVIEW_SETTINGS.allowedOrders.map(x => String(x).toUpperCase()).includes(id) && em;
+  if(mine.length){ state.reviewOrder = { id, email:em, prods:mine.map(o => o.prodId) }; }
+  else if(approved){ state.reviewOrder = { id, email:em, prods:null }; }
+  else {
+    msg.textContent = 'We could not find this order. Check the order number and email. If you ordered on another phone or computer, contact us and we will help.';
+    msg.className = 'form-msg err'; return;
+  }
+  msg.className = 'form-msg'; renderReview();
+});
+
+$('#rv-photos').addEventListener('change', async e => {
+  const files = [...e.target.files]; e.target.value = '';
+  for(const f of files){
+    if(state.photos.length >= REVIEW_SETTINGS.maxPhotos){ toast('You can add up to ' + REVIEW_SETTINGS.maxPhotos + ' photos.'); break; }
+    try{ state.photos.push(await shrinkPhoto(f)); }catch(err){ toast('That photo could not be read.'); }
+  }
+  drawThumbs();
+});
+function shrinkPhoto(file){
+  return new Promise((res, rej) => {
+    const fr = new FileReader();
+    fr.onload = () => { const img = new Image();
+      img.onload = () => { const k = Math.min(1, 700 / Math.max(img.width, img.height)), c = document.createElement('canvas');
+        c.width = Math.round(img.width*k); c.height = Math.round(img.height*k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); res(c.toDataURL('image/jpeg', .6)); };
+      img.onerror = rej; img.src = fr.result; };
+    fr.onerror = rej; fr.readAsDataURL(file);
+  });
+}
+function drawThumbs(){
+  $('#rvThumbs').innerHTML = state.photos.map((src,i) => '<div><img src="'+src+'" alt="Photo '+(i+1)+'"><button type="button" aria-label="Remove photo" onclick="state.photos.splice('+i+',1);drawThumbs()">×</button></div>').join('');
+}
+
+$('#reviewForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const msg = $('#reviewMsg'), btn = $('#reviewSubmitBtn'), ro = state.reviewOrder, p = getProd($('#rv-product').value);
+  msg.className = 'form-msg';
+  if(!state.rating){ msg.textContent = 'Please tap the stars to give a rating.'; msg.className = 'form-msg err'; return; }
+  const doneKey = ro.id + '|' + p.id;
+  if(REVIEW_SETTINGS.requireOrder && LS.get('ht_reviewed').includes(doneKey)){ msg.textContent = 'You have already reviewed this product for this order. Thank you!'; msg.className = 'form-msg err'; return; }
+  const data = { _subject:'New ' + STORE.name + ' REVIEW: ' + p.name + ' (' + state.rating + ' stars)', form_type:'review',
+    order_id:ro.id, email:ro.email, product:p.name, product_id:p.id, rating:state.rating,
+    name:$('#rv-name').value.trim(), review:$('#rv-text').value.trim(), date:new Date().toISOString().slice(0,10) };
+  state.photos.forEach((src,i) => data['photo_' + (i+1)] = src);
+  btn.disabled = true; btn.textContent = 'Sending...';
+  try{
+    if(FORMSPREE.url.includes('your-form-id')){ toast('Preview mode: Formspree is not connected yet, so this review was not emailed.'); }
+    else {
+      const res = await fetch(FORMSPREE.url, { method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body:JSON.stringify(data) });
+      if(!res.ok) throw new Error('Formspree error');
+    }
+    const pend = LS.get('ht_pending'); pend.push({ product:p.id, name:data.name, rating:data.rating, date:data.date, text:data.review, images:state.photos.slice(), verified:true });
+    LS.set('ht_pending', pend.slice(-10));
+    const done = LS.get('ht_reviewed'); done.push(doneKey); LS.set('ht_reviewed', done);
+    e.target.reset(); state.rating = 0; state.photos = []; paintStars(); drawThumbs();
+    msg.textContent = 'Thank you! Your review was sent. It will appear on the site after we check it.'; msg.className = 'form-msg ok';
+  }catch(err){
+    msg.textContent = 'We could not send your review. Check your internet connection and try again. (If you added photos, try fewer or smaller ones.)'; msg.className = 'form-msg err';
+  }finally{ btn.disabled = false; btn.textContent = 'Submit review'; }
+});
+
+/* ---------- search ---------- */
+function renderSearch(){
+  const q = state.query || '';
+  const words = q.toLowerCase().split(/\s+/).filter(Boolean);
+  const res = PRODUCTS.filter(p => {
+    const hay = [p.name, p.short, p.description, p.features.join(' '), getCat(p.category).title].join(' ').toLowerCase();
+    return words.every(w => hay.includes(w));
+  });
+  $('#searchHead').innerHTML = '<h1 class="section-title">Results for "' + esc(q) + '"</h1><p class="section-sub" style="margin-bottom:0">' +
+    (res.length ? res.length + (res.length === 1 ? ' product found' : ' products found') : 'No products found') + '</p>';
+  $('#searchGrid').innerHTML = res.length ? res.map(productCard).join('') : `
+    <div class="panel" style="grid-column:1/-1">
+      <h2>We could not find that</h2>
+      <p style="margin-bottom:16px">Try another word, like bed, collar, coat, toy or bowl. Or browse a category:</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">${CATEGORIES.map(c => `<button class="btn btn-sm" type="button" onclick="go('category',{catId:'${c.id}'})">${esc(c.title)}</button>`).join('')}</div>
+    </div>`;
+  const inp = $('#searchInput'); if(inp.value !== q) inp.value = q;
+}
+function doSearch(text){
+  const q = text.trim();
+  if(!q){ if(state.view === 'search') go('home'); return; }
+  go('search', {query:q}, state.view !== 'search');
+}
+$('#searchInput').addEventListener('input', e => doSearch(e.target.value));
+$('#searchForm').addEventListener('submit', e => { e.preventDefault(); doSearch($('#searchInput').value); $('#searchInput').blur(); });
+
+/* ---------- policy pages ---------- */
+function renderPolicy(){
+  const pol = POLICIES.find(x => x.id === state.policyId);
+  $('#policyTitle').textContent = pol.title;
+  const blocks = pol.content.trim().split(/\n\s*\n/);
+  $('#policyBody').innerHTML = blocks.map(b => {
+    b = b.trim();
+    if(b.startsWith('## ')) return '<h3>' + esc(b.slice(3)) + '</h3>';
+    return '<p>' + esc(b).replace(/\n/g, '<br>') + '</p>';
+  }).join('');
+}
+function setupPolicyLinks(){
+  const live = POLICIES.filter(x => x.content && x.content.trim());
+  const box = $('#footPolicies');
+  box.innerHTML = live.map(x => `<a href="#" onclick="go('policy',{policyId:'${x.id}'});return false;">${esc(x.title)}</a>`).join('');
+  box.style.display = live.length ? '' : 'none';
+}
+
+/* ---------- footer ---------- */
+function setupFooter(){
+  $('#footMail').textContent = STORE.email; $('#footMail').href = 'mailto:' + STORE.email;
+  $('#footWa').textContent = 'WhatsApp ' + STORE.whatsapp; $('#footWa').href = 'https://wa.me/' + STORE.whatsapp.replace(/\D/g,'');
+  $('#copyLine').textContent = '© ' + new Date().getFullYear() + ' ' + STORE.name + '. All rights reserved.';
+}
+
+/* ---------- floating paw prints ---------- */
+function setupPaws(){
+  const box = $('#paws');
+  for(let i = 0; i < 16; i++){
+    const el = document.createElement('i');
+    el.textContent = '🐾';
+    el.style.left = (Math.random()*96) + '%';
+    el.style.fontSize = (18 + Math.random()*26) + 'px';
+    el.style.animationDuration = (9 + Math.random()*9) + 's';
+    el.style.animationDelay = (-Math.random()*16) + 's';
+    box.appendChild(el);
+  }
+}
+
+/* ============================================================
+   SECTION: INTERACTIVE DOG FACE (behaviour)
+   Click-and-hold with a mouse, or touch-and-hold with a finger,
+   anywhere on the hero dog, then move: the head turns to follow
+   left/right and up/down. Release to let it settle back.
+   MAX_ANGLE / MAX_TX / MAX_TY / MAX_PUPIL below control how far
+   the head tilts and how far the eyes look.
+   ============================================================ */
+function setupDogFace(){
+  const stage = $('#dogStage'), head = $('#dogHead'), pupilL = $('#pupilL'), pupilR = $('#pupilR');
+  if(!stage || !head || !pupilL || !pupilR) return;
+  const MAX_ANGLE = 22, MAX_TX = 14, MAX_TY = 10, MAX_PUPIL = 6;
+  let dragging = false, activeId = null, startX = 0, startY = 0, settleTimer = null;
+
+  function apply(dx, dy){
+    const rect = stage.getBoundingClientRect();
+    const nx = Math.max(-1, Math.min(1, dx / (rect.width / 2)));
+    const ny = Math.max(-1, Math.min(1, dy / (rect.height / 2)));
+    head.style.transform = `rotate(${nx * MAX_ANGLE}deg) translate(${nx * MAX_TX}px, ${ny * MAX_TY}px)`;
+    const px = nx * MAX_PUPIL, py = ny * (MAX_PUPIL * 0.7);
+    pupilL.style.transform = `translate(${px}px, ${py}px)`;
+    pupilR.style.transform = `translate(${px}px, ${py}px)`;
+  }
+  const hint = $('#dogHint');
+  /* Only inside the round dog area counts: everything outside stays inert. */
+  function insideCircle(e){
+    const rect = stage.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+    const radius = Math.min(rect.width, rect.height) * 0.44;
+    const dx = e.clientX - cx, dy = e.clientY - cy;
+    return (dx * dx + dy * dy) <= radius * radius;
+  }
+  function onDown(e){
+    if(!insideCircle(e)) return;
+    if(hint) hint.classList.add('hidden');
+    dragging = true; activeId = e.pointerId;
+    startX = e.clientX; startY = e.clientY;
+    stage.classList.add('dragging');
+    clearTimeout(settleTimer);
+    head.style.transition = 'none';
+    head.style.animation = 'none';
+    try{ stage.setPointerCapture(e.pointerId); }catch(err){}
+    apply(0, 0);
+  }
+  function onMove(e){
+    if(!dragging || e.pointerId !== activeId) return;
+    apply(e.clientX - startX, e.clientY - startY);
+  }
+  function onUp(e){
+    if(!dragging || e.pointerId !== activeId) return;
+    dragging = false; activeId = null;
+    stage.classList.remove('dragging');
+    head.style.transition = 'transform .35s cubic-bezier(.34,1.56,.64,1)';
+    head.style.transform = 'translate(0,0) rotate(0deg)';
+    pupilL.style.transform = ''; pupilR.style.transform = '';
+    settleTimer = setTimeout(() => { head.style.animation = ''; head.style.transition = ''; }, 380);
+  }
+  stage.addEventListener('pointerdown', onDown);
+  stage.addEventListener('pointermove', onMove);
+  stage.addEventListener('pointerup', onUp);
+  stage.addEventListener('pointercancel', onUp);
+}
+
+/* ---------- 3D tilt on cards ---------- */
+document.addEventListener('mousemove', e => {
+  const t = e.target.closest && e.target.closest('.tilt');
+  if(!t) return;
+  const r = t.getBoundingClientRect(), x = (e.clientX - r.left)/r.width - .5, y = (e.clientY - r.top)/r.height - .5;
+  t.style.transform = `perspective(800px) rotateY(${x*10}deg) rotateX(${-y*10}deg) translateY(-6px)`;
+});
+document.addEventListener('mouseout', e => {
+  const t = e.target.closest && e.target.closest('.tilt');
+  if(t && !t.contains(e.relatedTarget)) t.style.transform = '';
+});
+
+/* ---------- external chatbot (Tidio) ---------- */
+function openLiveChat(){ try{ if(window.tidioChatApi) window.tidioChatApi.open(); }catch(e){} }
+/* The "Ask our helper" button only appears once Tidio has loaded */
+document.addEventListener('tidioChat-ready', () => { $('#askHelperBtn').style.display = ''; });
+
+/* ---------- start ---------- */
+setupCountry();
+setupFooter();
+setupPolicyLinks();
+setupPaws();
+setupDogFace();
+window.addEventListener('scroll', () => document.querySelector('.site-header').classList.toggle('scrolled', window.scrollY > 8), {passive:true});
+try{ history.replaceState({view:'home'}, ''); }catch(e){}
+go('home', {}, false);
+</script>
+</body>
+</html>
